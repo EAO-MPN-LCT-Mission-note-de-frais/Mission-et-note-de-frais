@@ -52,14 +52,14 @@ public class Expense {
      */
     @NonNull
     @Column(nullable = false)
-    private float amount;
+    private Float amount;
 
     /**
      * Pourcentage de TVA de la ligne de frais
      */
     @NonNull
     @Column(nullable = false)
-    private float tax;
+    private Float tax;
 
     /**
      * Note de frais associée
