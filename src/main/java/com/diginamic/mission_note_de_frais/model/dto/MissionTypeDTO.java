@@ -1,4 +1,4 @@
-package com.diginamic.mission_note_de_frais.modelDTO;
+package com.diginamic.mission_note_de_frais.model.dto;
 
 import java.time.LocalDate;
 

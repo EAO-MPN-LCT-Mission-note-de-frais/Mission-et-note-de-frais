@@ -1,4 +1,4 @@
-package com.diginamic.mission_note_de_frais.model;
+package com.diginamic.mission_note_de_frais.model.entity;
 
 import java.time.LocalDate;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.diginamic.mission_note_de_frais.modelDTO.MissionTypeDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
 import com.diginamic.mission_note_de_frais.service.MissionTypeService;
 
 @RestController
@@ -42,4 +42,3 @@ public class MissionTypeController {
         missionTypeService.deleteMissionType(id);
     }
 }
-

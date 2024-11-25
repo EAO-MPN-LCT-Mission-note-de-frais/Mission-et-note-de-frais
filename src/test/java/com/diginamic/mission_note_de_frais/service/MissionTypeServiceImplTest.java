@@ -13,9 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.diginamic.mission_note_de_frais.model.MissionType;
-import com.diginamic.mission_note_de_frais.modelDTO.MissionTypeDTO;
-import com.diginamic.mission_note_de_frais.repository.MissionTypeRepository;
+import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
+import com.diginamic.mission_note_de_frais.model.entity.MissionType;
+import com.diginamic.mission_note_de_frais.model.repository.MissionTypeRepository;
 
 class MissionTypeServiceImplTest {
 
