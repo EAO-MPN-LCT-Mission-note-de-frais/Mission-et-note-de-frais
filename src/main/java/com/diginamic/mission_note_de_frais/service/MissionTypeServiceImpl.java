@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.diginamic.mission_note_de_frais.model.MissionType;
-import com.diginamic.mission_note_de_frais.modelDTO.MissionTypeDTO;
-import com.diginamic.mission_note_de_frais.repository.MissionTypeRepository;
+import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
+import com.diginamic.mission_note_de_frais.model.entity.MissionType;
+import com.diginamic.mission_note_de_frais.model.repository.MissionTypeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
