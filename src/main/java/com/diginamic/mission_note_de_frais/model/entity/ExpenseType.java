@@ -1,4 +1,4 @@
-package com.diginamic.mission_note_de_frais.model;
+package com.diginamic.mission_note_de_frais.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +23,7 @@ public class ExpenseType {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     /**
      * Nom de la nature de frais

@@ -1,4 +1,4 @@
-package com.diginamic.mission_note_de_frais.model;
+package com.diginamic.mission_note_de_frais.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class Expense {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     /**
      * Date de la ligne de frais
