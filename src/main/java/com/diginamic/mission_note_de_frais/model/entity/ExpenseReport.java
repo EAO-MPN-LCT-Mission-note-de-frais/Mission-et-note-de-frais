@@ -1,4 +1,4 @@
-package com.diginamic.mission_note_de_frais.model;
+package com.diginamic.mission_note_de_frais.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,13 +12,13 @@ import java.util.List;
 /**
  * Modèle représentant une note de frais contenant des lignes de frais.
  *
+ * TODO: Implémenter la mission rattachée et le statut de la note de frais
+ *
  * @author Marjory PRIN
  */
 @Entity
 @Table(name = "EXPENSE_REPORT")
 @Data
-@RequiredArgsConstructor
-@NoArgsConstructor
 public class ExpenseReport {
 
     /**
@@ -26,7 +26,7 @@ public class ExpenseReport {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     /**
      * Liste des lignes de frais associées
