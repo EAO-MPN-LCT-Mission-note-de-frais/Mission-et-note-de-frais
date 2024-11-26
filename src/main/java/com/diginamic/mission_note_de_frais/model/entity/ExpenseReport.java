@@ -1,5 +1,6 @@
 package com.diginamic.mission_note_de_frais.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,7 +43,7 @@ public class ExpenseReport {
   /**
    * Mission rattachée à la note de frais
    */
-  @OneToOne()
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "mission_id")
   private Mission mission;
 

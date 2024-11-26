@@ -29,13 +29,6 @@ public class Status {
   private MissionStatus name;
 
   /**
-   * The short description of the status.
-   */
-  @Column(name = "description")
-
-  private String description;
-
-  /**
    * Gets the ID of the status.
    *
    * @return the ID of the status
@@ -72,24 +65,6 @@ public class Status {
   }
 
   /**
-   * Gets the description of the status.
-   *
-   * @return the description of the status
-   */
-  public String getDescription() {
-    return description;
-  }
-
-  /**
-   * Sets the description of the status.
-   *
-   * @param description the description of the status
-   */
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  /**
    * The enum representing the status.
    */
   public enum MissionStatus {
@@ -117,6 +92,6 @@ public class Status {
     /**
      * The mission has been cancelled.
      */
-    ANNULER
+    ANNULEE
   }
 }
