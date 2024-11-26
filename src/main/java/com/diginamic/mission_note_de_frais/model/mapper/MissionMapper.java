@@ -2,19 +2,18 @@ package com.diginamic.mission_note_de_frais.model.mapper;
 
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor
 public class MissionMapper implements Function<Mission, MissionDTO> {
 
   private final StatusMapper statusMapper;
-
-  public MissionMapper(StatusMapper statusMapper) {
-    this.statusMapper = statusMapper;
-  }
+  private final SimpleExpenseReportMapper expenseReportMapper;
 
   /**
    * Converts a {@link Mission} to a {@link MissionDTO}.
@@ -31,6 +30,10 @@ public class MissionMapper implements Function<Mission, MissionDTO> {
     Optional.ofNullable(entity.getStatus())
         .map(statusMapper)
         .ifPresent(mission::setStatus);
+
+    Optional.ofNullable(entity.getExpenseReport())
+        .map(expenseReportMapper)
+        .ifPresent(mission::setExpenseReport);
 
     return mission;
   }

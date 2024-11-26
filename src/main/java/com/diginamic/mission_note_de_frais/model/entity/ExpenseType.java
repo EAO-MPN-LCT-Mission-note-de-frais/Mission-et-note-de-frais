@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Marjory PRIN
  */
-@Entity
+@Entity()
 @Table(name = "EXPENSE_TYPE")
 @Data
 @RequiredArgsConstructor

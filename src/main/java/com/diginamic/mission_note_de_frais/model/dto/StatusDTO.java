@@ -14,11 +14,6 @@ public class StatusDTO {
    */
   private MissionStatus name;
 
-  /**
-   * The short description of the status.
-   */
-  private String description;
-
 
   /**
    * Gets the ID of the status.
@@ -54,23 +49,5 @@ public class StatusDTO {
    */
   public void setName(MissionStatus name) {
     this.name = name;
-  }
-
-  /**
-   * Gets the description of the status.
-   *
-   * @return the description of the status
-   */
-  public String getDescription() {
-    return description;
-  }
-
-  /**
-   * Sets the description of the status.
-   *
-   * @param description the description of the status
-   */
-  public void setDescription(String description) {
-    this.description = description;
   }
 }
