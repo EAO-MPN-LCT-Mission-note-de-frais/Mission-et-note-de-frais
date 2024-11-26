@@ -119,4 +119,24 @@ public class ExpenseController {
             return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Supprime une ligne de frais existante.
+     *
+     * @param id L'identifiant de la dépense à supprimer.
+     * @return ResponseEntity avec le statut HTTP et un message.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteExpense(@PathVariable Long id) {
+        try {
+            boolean result = expenseService.deleteExpense(id);
+            if (result) {
+                return new ResponseEntity<>("Dépense supprimée avec succès", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Échec de la suppression : La dépense n'a pas pu être supprimée pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
