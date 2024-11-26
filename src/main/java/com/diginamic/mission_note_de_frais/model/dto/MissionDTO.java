@@ -1,8 +1,10 @@
 package com.diginamic.mission_note_de_frais.model.dto;
 
+import lombok.Data;
 
 import java.time.LocalDate;
 
+@Data
 public class MissionDTO {
   /**
    * The unique identifier for the mission.
@@ -34,123 +36,8 @@ public class MissionDTO {
    */
   private StatusDTO status;
 
-  @Override
-  public String toString() {
-    return "MissionDto{" +
-        "id=" + id +
-        ", startDate=" + startDate +
-        ", endDate=" + endDate +
-        ", startTown='" + startTown + '\'' +
-        ", endTown='" + endTown + '\'' +
-        ", status=" + status +
-        '}';
-  }
-
   /**
-   * Gets the ID of the mission.
-   *
-   * @return the ID of the mission
+   * A summarized version of the expense report associated with this mission.
    */
-  public Integer getId() {
-    return id;
-  }
-
-  /**
-   * Sets the ID of the mission.
-   *
-   * @param id the ID to set
-   */
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  /**
-   * Gets the start date of the mission.
-   *
-   * @return the start date of the mission
-   */
-  public LocalDate getStartDate() {
-    return startDate;
-  }
-
-  /**
-   * Sets the start date of the mission.
-   *
-   * @param startDate the start date to set
-   */
-  public void setStartDate(LocalDate startDate) {
-    this.startDate = startDate;
-  }
-
-  /**
-   * Gets the end date of the mission.
-   *
-   * @return the end date of the mission
-   */
-  public LocalDate getEndDate() {
-    return endDate;
-  }
-
-  /**
-   * Sets the end date of the mission.
-   *
-   * @param endDate the end date to set
-   */
-  public void setEndDate(LocalDate endDate) {
-    this.endDate = endDate;
-  }
-
-  /**
-   * Gets the start town of the mission.
-   *
-   * @return the start town of the mission
-   */
-  public String getStartTown() {
-    return startTown;
-  }
-
-  /**
-   * Sets the start town of the mission.
-   *
-   * @param startTown the start town to set
-   */
-  public void setStartTown(String startTown) {
-    this.startTown = startTown;
-  }
-
-  /**
-   * Gets the end town of the mission.
-   *
-   * @return the end town of the mission
-   */
-  public String getEndTown() {
-    return endTown;
-  }
-
-  /**
-   * Sets the end town of the mission.
-   *
-   * @param endTown the end town to set
-   */
-  public void setEndTown(String endTown) {
-    this.endTown = endTown;
-  }
-
-  /**
-   * Gets the status of the mission.
-   *
-   * @return the status of the mission
-   */
-  public StatusDTO getStatus() {
-    return status;
-  }
-
-  /**
-   * Sets the status of the mission.
-   *
-   * @param status the status to set
-   */
-  public void setStatus(StatusDTO status) {
-    this.status = status;
-  }
+  private SimpleExpenseReportDTO expenseReport;
 }

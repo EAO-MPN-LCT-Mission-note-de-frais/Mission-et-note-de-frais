@@ -17,7 +17,6 @@ public class StatusMapper implements Function<Status, StatusDTO> {
     var status = new StatusDTO();
     status.setId(entity.getId());
     status.setName(entity.getName());
-    status.setDescription(entity.getDescription());
     return status;
   }
 }
