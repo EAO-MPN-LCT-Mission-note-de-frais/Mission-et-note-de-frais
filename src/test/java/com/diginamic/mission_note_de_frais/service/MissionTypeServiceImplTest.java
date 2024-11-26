@@ -33,13 +33,13 @@ class MissionTypeServiceImplTest {
     @Test
     void testCreateMissionType_Success() {
         // Arrange
-        MissionTypeDTO missionTypeDTO = new MissionTypeDTO(null, "Mission 1", true, true, 500f, 10f, null, null);
+        MissionTypeDTO missionTypeDTO = new MissionTypeDTO(null, "Mission 1", true, true, 500.0, 10.0, null, null);
         MissionType missionType = new MissionType();
         missionType.setLabel("Mission 1");
         missionType.setIsCharged(true);
         missionType.setIsBonus(true);
-        missionType.setAverageDailyRate(500f);
-        missionType.setBonusPercentage(10f);
+        missionType.setAverageDailyRate(500.0);
+        missionType.setBonusPercentage(10.0);
         missionType.setStartDate(LocalDate.now());
 
         when(missionTypeRepository.findByLabelAndEndDateIsNull("Mission 1")).thenReturn(Optional.empty());
@@ -57,7 +57,7 @@ class MissionTypeServiceImplTest {
     @Test
     void testCreateMissionType_ThrowsException_WhenLabelExists() {
         // Arrange
-        MissionTypeDTO missionTypeDTO = new MissionTypeDTO(null, "Mission 1", true, true, 500f, 10f, null, null);
+        MissionTypeDTO missionTypeDTO = new MissionTypeDTO(null, "Mission 1", true, true, 500.0, 10.0, null, null);
         MissionType existingMissionType = new MissionType();
         existingMissionType.setLabel("Mission 1");
 
