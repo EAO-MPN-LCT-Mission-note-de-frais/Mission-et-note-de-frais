@@ -21,7 +21,7 @@ import java.util.List;
  * @author Marjory PRIN
  */
 @RestController
-@RequestMapping("/api/expenses")
+@RequestMapping("/expenses")
 public class ExpenseController {
 
     @Autowired
@@ -58,6 +58,13 @@ public class ExpenseController {
                 .map(expense -> expenseMapper.toDTO(expense))
                 .toList();
     }
+
+    /**
+     * Insère une nouvelle ligne de frais.
+     *
+     * @param expenseDTO Le DTO de Expense à insérer.
+     * @return ResponseEntity avec le statut HTTP et l'entité insérée.
+     */
 
 
 }
