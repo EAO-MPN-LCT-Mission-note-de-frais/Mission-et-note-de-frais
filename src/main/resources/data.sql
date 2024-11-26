@@ -22,7 +22,7 @@ VALUES  (5, '2024-11-25 14:25:47.000000', '$2y$10$waPVWJNiZ9pjJ.V0kokCBuuho82lOB
 
 # Insert mission status data
 INSERT INTO status (id, name, description)
-VALUES (1, 'INITIALE', 'Une mission qui vient d\'être créée'),
+VALUES (1, 'INITIALE', 'Une mission qui vient d''être créée'),
        (2, 'EN_ATTENTE_VALIDATION', 'Une mission en attends de validation par le manager'),
        (3, 'VALIDEE', 'Le manager a approuvé la mission'),
        (4, 'REJETEE', 'Le manager a refusé la mission'),
@@ -35,3 +35,26 @@ VALUES (948162, 'COLLABORATOR'),
        (627481, 'MANAGER'),
        (385209, 'MANAGER'),
        (627481, 'ADMINISTRATOR');
+
+# Insert expense report data
+INSERT INTO expense_report (id)
+VALUES (1),
+       (2),
+       (3);
+
+# Insert expense type data
+INSERT INTO expense_type (id, name)
+VALUES (1, 'Transport'),
+       (2, 'Hotel'),
+       (3, 'Repas'),
+       (4, 'Divers');
+
+# Insert expense data
+INSERT INTO expense (id, date, amount, tax, expense_report_id, type_id)
+VALUES (1, '2024-11-23', 121.35, 20, 1, 2),
+       (2, '2024-11-23', 2.5, 10, 1, 1),
+       (3, '2024-11-24', 15.61, 20, 2, 3),
+       (4, '2024-11-25', 99.56, 10, 2, 2),
+       (5, '2024-11-25', 8.30, 0, 3, 1),
+       (6, '2024-11-26', 10, 0, 3, 4);
+

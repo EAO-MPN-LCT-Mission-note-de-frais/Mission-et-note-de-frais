@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -71,10 +72,10 @@ class ExpenseServiceImplTest {
     @Test
     void testInsertExpense_Success() throws FunctionalException {
         Expense expense = new Expense();
-        expense.setDate(new Date());
+        expense.setDate(LocalDate.now());
         expense.setType(new ExpenseType("Transport"));
-        expense.setAmount(45.5f);
-        expense.setTax(20.0f);
+        expense.setAmount(45.5);
+        expense.setTax(20.0);
 
         when(expenseRepository.save(any(Expense.class))).thenReturn(expense);
 
@@ -87,10 +88,10 @@ class ExpenseServiceImplTest {
     @Test
     void testInsertExpense_FunctionalException() {
         Expense expense = new Expense();
-        expense.setDate(new Date());
+        expense.setDate(LocalDate.now());
         expense.setType(new ExpenseType("Transport"));
-        expense.setAmount(0f);
-        expense.setTax(20.0f);
+        expense.setAmount(0.0);
+        expense.setTax(20.0);
 
         assertThrows(FunctionalException.class, () -> {
             expenseService.insertExpense(expense);
