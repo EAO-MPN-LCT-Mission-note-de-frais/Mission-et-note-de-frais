@@ -68,21 +68,21 @@ public class MissionType {
 	 * <p>
 	 * Ce champ est obligatoire uniquement si {@code isCharged} est vrai.
 	 */
-	private Float averageDailyRate;
+	private Double averageDailyRate;
 
 	/**
 	 * Pourcentage de prime applicable à la nature de mission.
 	 * <p>
 	 * Ce champ est obligatoire uniquement si {@code isBonus} est vrai.
 	 */
-	private Float bonusPercentage;
+	private Double bonusPercentage;
 
 	/**
 	 * Montant de la prime associé à la nature de mission.
 	 * <p>
 	 * Ce champ est optionnel et peut être utilisé pour des calculs futurs.
 	 */
-	private Float bonusAmount;
+	private Double bonusAmount;
 
 	// Getters et setters
 
@@ -200,7 +200,7 @@ public class MissionType {
 	 *
 	 * @return le TJM de la mission ou {@code null} si non applicable
 	 */
-	public Float getAverageDailyRate() {
+	public Double getAverageDailyRate() {
 		return averageDailyRate;
 	}
 
@@ -209,7 +209,7 @@ public class MissionType {
 	 *
 	 * @param averageDailyRate le TJM de la mission
 	 */
-	public void setAverageDailyRate(Float averageDailyRate) {
+	public void setAverageDailyRate(Double averageDailyRate) {
 		this.averageDailyRate = averageDailyRate;
 	}
 
@@ -218,7 +218,7 @@ public class MissionType {
 	 *
 	 * @return le pourcentage de prime ou {@code null} si non applicable
 	 */
-	public Float getBonusPercentage() {
+	public Double getBonusPercentage() {
 		return bonusPercentage;
 	}
 
@@ -227,7 +227,7 @@ public class MissionType {
 	 *
 	 * @param bonusPercentage le pourcentage de prime
 	 */
-	public void setBonusPercentage(Float bonusPercentage) {
+	public void setBonusPercentage(Double bonusPercentage) {
 		this.bonusPercentage = bonusPercentage;
 	}
 
@@ -236,7 +236,7 @@ public class MissionType {
 	 *
 	 * @return le montant de la prime ou {@code null} si non défini
 	 */
-	public Float getBonusAmount() {
+	public Double getBonusAmount() {
 		return bonusAmount;
 	}
 
@@ -245,7 +245,7 @@ public class MissionType {
 	 *
 	 * @param bonusAmount le montant de la prime
 	 */
-	public void setBonusAmount(Float bonusAmount) {
+	public void setBonusAmount(Double bonusAmount) {
 		this.bonusAmount = bonusAmount;
 	}
 }

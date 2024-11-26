@@ -32,12 +32,12 @@ public class MissionTypeDTO {
 	/**
 	 * Taux Journalier Moyen (TJM) de la nature de mission.
 	 */
-	private Float averageDailyRate;
+	private Double averageDailyRate;
 
 	/**
 	 * Pourcentage de la prime de la nature de mission.
 	 */
-	private Float bonusPercentage;
+	private Double bonusPercentage;
 
 	/**
 	 * Date de début de validité de la nature de mission.
@@ -67,8 +67,8 @@ public class MissionTypeDTO {
 	 * @param startDate        la date de début de validité
 	 * @param endDate          la date de fin de validité
 	 */
-	public MissionTypeDTO(Long id, String label, Boolean isCharged, Boolean isBonus, Float averageDailyRate,
-			Float bonusPercentage, LocalDate startDate, LocalDate endDate) {
+	public MissionTypeDTO(Long id, String label, Boolean isCharged, Boolean isBonus, Double averageDailyRate,
+			Double bonusPercentage, LocalDate startDate, LocalDate endDate) {
 		this.id = id;
 		this.label = label;
 		this.isCharged = isCharged;
@@ -131,28 +131,28 @@ public class MissionTypeDTO {
 	/**
 	 * @return le TJM de la nature de mission
 	 */
-	public Float getAverageDailyRate() {
+	public Double getAverageDailyRate() {
 		return averageDailyRate;
 	}
 
 	/**
 	 * @param averageDailyRate le TJM de la nature de mission
 	 */
-	public void setAverageDailyRate(Float averageDailyRate) {
+	public void setAverageDailyRate(Double averageDailyRate) {
 		this.averageDailyRate = averageDailyRate;
 	}
 
 	/**
 	 * @return le pourcentage de la prime de la nature de mission
 	 */
-	public Float getBonusPercentage() {
+	public Double getBonusPercentage() {
 		return bonusPercentage;
 	}
 
 	/**
 	 * @param bonusPercentage le pourcentage de la prime de la nature de mission
 	 */
-	public void setBonusPercentage(Float bonusPercentage) {
+	public void setBonusPercentage(Double bonusPercentage) {
 		this.bonusPercentage = bonusPercentage;
 	}
 
