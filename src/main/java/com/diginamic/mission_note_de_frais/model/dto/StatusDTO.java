@@ -3,7 +3,7 @@ package com.diginamic.mission_note_de_frais.model.dto;
 
 import com.diginamic.mission_note_de_frais.model.entity.Status.MissionStatus;
 
-public class StatusDto {
+public class StatusDTO {
   /**
    * The unique identifier for the mission.
    */

@@ -3,7 +3,7 @@ package com.diginamic.mission_note_de_frais.model.dto;
 
 import java.time.LocalDate;
 
-public class MissionDto {
+public class MissionDTO {
   /**
    * The unique identifier for the mission.
    */
@@ -32,7 +32,7 @@ public class MissionDto {
   /**
    * The current status of the mission.
    */
-  private StatusDto status;
+  private StatusDTO status;
 
   @Override
   public String toString() {
@@ -141,7 +141,7 @@ public class MissionDto {
    *
    * @return the status of the mission
    */
-  public StatusDto getStatus() {
+  public StatusDTO getStatus() {
     return status;
   }
 
@@ -150,7 +150,7 @@ public class MissionDto {
    *
    * @param status the status to set
    */
-  public void setStatus(StatusDto status) {
+  public void setStatus(StatusDTO status) {
     this.status = status;
   }
 }

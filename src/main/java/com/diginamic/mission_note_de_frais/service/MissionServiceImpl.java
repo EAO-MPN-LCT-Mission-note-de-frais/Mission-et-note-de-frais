@@ -2,7 +2,7 @@ package com.diginamic.mission_note_de_frais.service;
 
 import com.diginamic.mission_note_de_frais.model.repository.MissionRepository;
 import com.diginamic.mission_note_de_frais.model.repository.StatusRepository;
-import com.diginamic.mission_note_de_frais.model.dto.MissionDto;
+import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.mapper.MissionMapper;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
 import com.diginamic.mission_note_de_frais.model.entity.Status.MissionStatus;
@@ -29,7 +29,7 @@ public class MissionServiceImpl implements MissionService {
   }
 
   @Override
-  public MissionDto createMission(MissionDto missionDto) {
+  public MissionDTO createMission(MissionDTO missionDto) {
     // Fetch the initial status for the mission
     var status = statusRepository.findByName(MissionStatus.INITIALE).orElseThrow(
         () -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Status not found")
@@ -49,14 +49,14 @@ public class MissionServiceImpl implements MissionService {
   }
 
   @Override
-  public List<MissionDto> getMissions() {
+  public List<MissionDTO> getMissions() {
     return missionRepository.findAll()
         .stream()
         .map(mapper).toList();
   }
 
   @Override
-  public MissionDto getMissionById(Integer missionId) {
+  public MissionDTO getMissionById(Integer missionId) {
     return missionRepository.findById(missionId)
         .map(mapper)
         .orElseThrow(() ->
@@ -65,7 +65,7 @@ public class MissionServiceImpl implements MissionService {
   }
 
   @Override
-  public MissionDto updateMission(MissionDto missionDto) {
+  public MissionDTO updateMission(MissionDTO missionDto) {
     var entity = missionRepository.findById(missionDto.getId())
         .orElseThrow(() ->
             new ResponseStatusException(HttpStatus.NOT_FOUND, "Mission not found")

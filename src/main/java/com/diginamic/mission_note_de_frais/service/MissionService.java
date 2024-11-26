@@ -1,6 +1,6 @@
 package com.diginamic.mission_note_de_frais.service;
 
-import com.diginamic.mission_note_de_frais.model.dto.MissionDto;
+import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 
 import java.util.List;
 
@@ -11,26 +11,26 @@ public interface MissionService {
   /**
    * Create a new mission.
    */
-  MissionDto createMission(MissionDto missionDto);
+  MissionDTO createMission(MissionDTO missionDto);
 
   /**
    * Get an existing mission.
    */
-  List<MissionDto> getMissions();
+  List<MissionDTO> getMissions();
 
   /**
    * Get an existing mission by its identifier.
    *
    * @param missionId the identifier of the mission
    */
-  MissionDto getMissionById(Integer missionId);
+  MissionDTO getMissionById(Integer missionId);
 
   /**
    * Update an existing mission.
    *
    * @param missionDto an object containing information about the mission
    */
-  MissionDto updateMission(MissionDto missionDto);
+  MissionDTO updateMission(MissionDTO missionDto);
 
   /**
    * Delete an existing mission.

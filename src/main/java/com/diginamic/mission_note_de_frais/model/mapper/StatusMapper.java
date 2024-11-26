@@ -1,20 +1,20 @@
 package com.diginamic.mission_note_de_frais.model.mapper;
 
-import com.diginamic.mission_note_de_frais.model.dto.StatusDto;
+import com.diginamic.mission_note_de_frais.model.dto.StatusDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Status;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
 @Component
-public class StatusMapper implements Function<Status, StatusDto> {
+public class StatusMapper implements Function<Status, StatusDTO> {
 
   /**
-   * Converts a {@link Status} to a {@link StatusDto}.
+   * Converts a {@link Status} to a {@link StatusDTO}.
    */
   @Override
-  public StatusDto apply(Status entity) {
-    var status = new StatusDto();
+  public StatusDTO apply(Status entity) {
+    var status = new StatusDTO();
     status.setId(entity.getId());
     status.setName(entity.getName());
     status.setDescription(entity.getDescription());
