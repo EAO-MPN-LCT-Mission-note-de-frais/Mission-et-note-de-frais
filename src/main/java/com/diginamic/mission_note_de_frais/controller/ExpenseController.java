@@ -20,8 +20,6 @@ import java.util.List;
  * <p>Ce contrôleur fournit des points d'accès RESTful pour effectuer des opérations CRUD
  * sur les lignes de frais.</p>
  *
- *  * TODO : Ajouter la méthode POST, PUT et DELETE
- *
  * @author Marjory PRIN
  */
 @RestController
@@ -73,7 +71,10 @@ public class ExpenseController {
     @PostMapping
     public ResponseEntity<String> insertExpense(@RequestBody ExpenseDTO newExpense, @RequestParam Long expenseReportId) throws FunctionalException {
         try {
+            // Récupérer le ExpenseReport
             ExpenseReport expenseReport = expenseReportService.getExpenseReportById(expenseReportId);
+
+            // Mapper le DTO à l'entité et associer le ExpenseReport
             Expense expense = expenseMapper.toEntity(newExpense);
             expense.setExpenseReport(expenseReport);
 
@@ -91,4 +92,31 @@ public class ExpenseController {
         }
     }
 
+    /**
+     * Met à jour une ligne de frais existante.
+     *
+     * @param id L'identifiant de la dépense à mettre à jour.
+     * @param updatedExpense Le DTO de Expense avec les nouvelles données.
+     * @return ResponseEntity avec le statut HTTP et un message.
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateExpense(@PathVariable Long id, @RequestBody ExpenseDTO updatedExpense) throws FunctionalException {
+        try {
+            // Mapper le DTO à l'entité
+            Expense expense = expenseMapper.toEntity(updatedExpense);
+            expense.setId(id);
+
+            boolean result = expenseService.updateExpense(expense);
+
+            if (result) {
+                return new ResponseEntity<String>("Dépense mise à jour avec succès", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Echec de la mise à jour : La dépense n'a pas pu être mise à jour pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (FunctionalException e) {
+            return new ResponseEntity<>("Erreur de validation (400) : " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
