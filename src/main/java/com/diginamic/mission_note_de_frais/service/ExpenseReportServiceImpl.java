@@ -11,8 +11,6 @@ import java.util.List;
 /**
  * Service pour gérer la logique métier liée aux note de frais (`ExpenseReport`).
  *
- * TODO : Ajouter l'extract par collaborateur et par état +  l'ajout, la modif (état) et la suppression
- *
  * @author Marjory PRIN
  */
 @Service

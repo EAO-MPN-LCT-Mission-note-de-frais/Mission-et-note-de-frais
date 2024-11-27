@@ -22,7 +22,7 @@ import java.util.List;
  * @author Marjory PRIN
  */
 @RestController
-@RequestMapping("/api/expense-types")
+@RequestMapping("/expense-types")
 public class ExpenseTypeController {
 
     @Autowired

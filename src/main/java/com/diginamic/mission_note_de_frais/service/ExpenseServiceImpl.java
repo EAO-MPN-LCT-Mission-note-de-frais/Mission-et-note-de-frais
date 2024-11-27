@@ -7,7 +7,6 @@ import com.diginamic.mission_note_de_frais.model.repository.ExpenseReportReposit
 import com.diginamic.mission_note_de_frais.model.repository.ExpenseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,7 +52,6 @@ public class ExpenseServiceImpl implements ExpenseService {
     /**
      * Insère une nouvelle ligne de frais dans la base de données.
      * <p>
-     * TODO: Implémenter la règle métier pour la date (besoin de la mission)
      * La date est comprise entre la date de début de mission et peut-être postérieure à la date de fin de mission
      * </p>
      *
@@ -69,6 +67,13 @@ public class ExpenseServiceImpl implements ExpenseService {
         if(expense.getTax() < 0) {
             throw new FunctionalException("Le pourcentage de TVA doit être égal ou supérieur à 0");
         }
+        if(expense.getDate().isBefore(expense.getExpenseReport().getMission().getStartDate())) {
+            throw new FunctionalException("La date de la dépense ne peut pas être antérieure à la date de début de la mission");
+        }
+        String status = expense.getExpenseReport().getStatus().getName().name();
+        if (!status.equals("INITIALE") && !status.equals("REJETEE")) {
+            throw new FunctionalException("La note de frais doit être au statut INITIAL ou REJETÉE pour ajouter une dépense");
+        }
         expenseRepository.save(expense);
         return true;
     }
@@ -76,7 +81,6 @@ public class ExpenseServiceImpl implements ExpenseService {
     /**
      * Met à jour une ligne de frais existante.
      * <p>
-     * TODO: Implémenter la règle métier pour la date (besoin de la mission)
      * La date est comprise entre la date de début de mission et peut-être postérieure à la date de fin de mission
      * </p>
      *
@@ -93,6 +97,13 @@ public class ExpenseServiceImpl implements ExpenseService {
         }
         if(expense.getTax() < 0) {
             throw new FunctionalException("Le pourcentage de TVA doit être égal ou supérieur à 0");
+        }
+        if(expense.getDate().isBefore(expense.getExpenseReport().getMission().getStartDate())) {
+            throw new FunctionalException("La date de la dépense ne peut pas être antérieure à la date de début de la mission");
+        }
+        String status = expense.getExpenseReport().getStatus().getName().name();
+        if (!status.equals("INITIALE") && !status.equals("REJETEE")) {
+            throw new FunctionalException("La note de frais doit être au statut INITIAL ou REJETÉE pour modifier une dépense");
         }
         expenseFromDB.setDate(expense.getDate());
         expenseFromDB.setType(expense.getType());
@@ -111,9 +122,13 @@ public class ExpenseServiceImpl implements ExpenseService {
      * @throws EntityNotFoundException si aucune ligne de frais n'est trouvée pour l'identifiant.
      */
     @Override
-    public boolean deleteExpense(Long id) {
+    public boolean deleteExpense(Long id) throws FunctionalException {
         Expense expenseFromDB = expenseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("La ligne de frais avec l'ID " + id + " n'a pas été trouvée"));
+        String status = expenseFromDB.getExpenseReport().getStatus().getName().name();
+        if (!status.equals("INITIALE") && !status.equals("REJETEE")) {
+            throw new FunctionalException("La note de frais doit être au statut INITIAL ou REJETÉE pour supprimer une dépense");
+        }
         expenseRepository.delete(expenseFromDB);
         return true;
     }

@@ -2,8 +2,9 @@ package com.diginamic.mission_note_de_frais.model.mapper;
 
 import com.diginamic.mission_note_de_frais.model.dto.ExpenseDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Expense;
+import com.diginamic.mission_note_de_frais.model.entity.ExpenseReport;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseType;
-import com.diginamic.mission_note_de_frais.service.ExpenseServiceImpl;
+import com.diginamic.mission_note_de_frais.service.ExpenseReportServiceImpl;
 import com.diginamic.mission_note_de_frais.service.ExpenseTypeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,10 @@ import org.springframework.stereotype.Component;
 public class ExpenseMapper {
 
     @Autowired
-    private ExpenseServiceImpl expenseService;
+    private ExpenseTypeServiceImpl expenseTypeService;
 
     @Autowired
-    private ExpenseTypeServiceImpl expenseTypeService;
+    private ExpenseReportServiceImpl expenseReportService;
 
     /**
      * Convertit une entité `Expense` en un DTO `ExpenseDTO`.
@@ -30,11 +31,13 @@ public class ExpenseMapper {
             throw new IllegalArgumentException("L'entité Expense ne peut pas être null");
         }
         ExpenseDTO expenseDTO = new ExpenseDTO();
+        expenseDTO.setId(expense.getId());
         expenseDTO.setDate(expense.getDate());
         expenseDTO.setExpenseType(expense.getType().getName());
         expenseDTO.setDescription(expense.getDescription());
         expenseDTO.setAmount(expense.getAmount());
         expenseDTO.setTax(expense.getTax());
+        expenseDTO.setExpenseReportId(expense.getExpenseReport().getId());
         return expenseDTO;
     }
 
@@ -50,10 +53,13 @@ public class ExpenseMapper {
             throw new IllegalArgumentException("Le DTO ne peut pas être null");
         }
         Expense expense = new Expense();
+        expense.setId(expenseDTO.getId());
         expense.setDate(expenseDTO.getDate());
         expense.setDescription(expenseDTO.getDescription());
         expense.setAmount(expenseDTO.getAmount());
         expense.setTax(expenseDTO.getTax());
+
+        // Gestion du type de dépense
         ExpenseType type = new ExpenseType();
         type.setName(expenseDTO.getExpenseType());
         expense.setType(type);
@@ -62,6 +68,11 @@ public class ExpenseMapper {
             t.setName(type.getName());
             expense.setType(t);
         }
+
+        // Ajout de l'ExpenseReport
+        ExpenseReport expenseReport = expenseReportService.getExpenseReportById(expenseDTO.getExpenseReportId());
+        expense.setExpenseReport(expenseReport);
+
         return expense;
     }
 }

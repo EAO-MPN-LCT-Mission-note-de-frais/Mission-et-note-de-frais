@@ -7,8 +7,6 @@ import java.util.List;
 /**
  * Interface représentant le service de gestion des note de frais (`ExpenseReport`).
  *
- * TODO : Ajouter l'extract par collaborateur et par état +  l'ajout, la modif (état) et la suppression
- *
  * @author Marjory PRIN
  */
 public interface ExpenseReportService {
