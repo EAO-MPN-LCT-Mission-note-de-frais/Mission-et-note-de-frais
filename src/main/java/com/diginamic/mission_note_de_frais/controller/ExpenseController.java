@@ -69,7 +69,7 @@ public class ExpenseController {
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @PostMapping
-    public ResponseEntity<String> insertExpense(@RequestBody ExpenseDTO newExpense, @RequestParam Long expenseReportId) throws FunctionalException {
+    public ResponseEntity<String> insertExpense(@RequestBody ExpenseDTO newExpense, @RequestParam Long expenseReportId) {
         try {
             // Récupérer le ExpenseReport
             ExpenseReport expenseReport = expenseReportService.getExpenseReportById(expenseReportId);
@@ -81,7 +81,7 @@ public class ExpenseController {
             boolean result = expenseService.insertExpense(expense);
 
             if (result) {
-                return new ResponseEntity<String>("Dépense insérée avec succès", HttpStatus.OK);
+                return new ResponseEntity<>("Dépense insérée avec succès", HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Echec de l'insertion : La dépense n'a pas pu être insérée pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -100,7 +100,7 @@ public class ExpenseController {
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateExpense(@PathVariable Long id, @RequestBody ExpenseDTO updatedExpense) throws FunctionalException {
+    public ResponseEntity<String> updateExpense(@PathVariable Long id, @RequestBody ExpenseDTO updatedExpense) {
         try {
             // Mapper le DTO à l'entité
             Expense expense = expenseMapper.toEntity(updatedExpense);
@@ -109,7 +109,7 @@ public class ExpenseController {
             boolean result = expenseService.updateExpense(expense);
 
             if (result) {
-                return new ResponseEntity<String>("Dépense mise à jour avec succès", HttpStatus.OK);
+                return new ResponseEntity<>("Dépense mise à jour avec succès", HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Echec de la mise à jour : La dépense n'a pas pu être mise à jour pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
             }

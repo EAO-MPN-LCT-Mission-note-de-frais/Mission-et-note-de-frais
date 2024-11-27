@@ -15,6 +15,11 @@ import java.time.LocalDate;
 public class ExpenseDTO {
 
     /**
+     * Identifiant de la ligne de frais
+     */
+    private Long id;
+
+    /**
      * Date de la ligne de frais
      */
     private LocalDate date;
@@ -38,4 +43,9 @@ public class ExpenseDTO {
      * Pourcentage de TVA de la ligne de frais
      */
     private Double tax;
+
+    /**
+     * Identifiant de la note de frais
+     */
+    private Long expenseReportId;
 }

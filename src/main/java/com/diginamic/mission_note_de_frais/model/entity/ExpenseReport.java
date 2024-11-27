@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * Modèle représentant une note de frais contenant des lignes de frais.
  * <p>
- * TODO: Implémenter la mission rattachée et le statut de la note de frais
  *
  * @author Marjory PRIN
  */
