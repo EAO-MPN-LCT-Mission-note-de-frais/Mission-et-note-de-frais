@@ -2,15 +2,10 @@ package com.diginamic.mission_note_de_frais.model.mapper;
 
 import com.diginamic.mission_note_de_frais.model.dto.ExpenseTypeDTO;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseType;
-import com.diginamic.mission_note_de_frais.service.ExpenseTypeServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ExpenseTypeMapper {
-
-    @Autowired
-    private ExpenseTypeServiceImpl expenseTypeService;
 
     /**
      * Convertit une entité `ExpenseType` en un DTO `ExpenseTypeDTO`.
@@ -27,4 +22,21 @@ public class ExpenseTypeMapper {
         expenseTypeDTO.setName(expenseType.getName());
         return expenseTypeDTO;
     }
+
+    /**
+     * Convertit un DTO `ExpenseTypeDTO` en une entité `ExpenseType`.
+     *
+     * @param expenseTypeDTO Le DTO `ExpenseTypeDTO` à convertir.
+     * @return Une instance de `ExpenseType` contenant les données de l'entité.
+     * @throws IllegalArgumentException si le DTO `ExpenseTypeDTO` est null.
+     */
+    public ExpenseType toEntity(ExpenseTypeDTO expenseTypeDTO) {
+        if (expenseTypeDTO == null) {
+            throw new IllegalArgumentException("Le DTO ExpenseTypeDTO ne peut pas être null");
+        }
+        ExpenseType expenseType = new ExpenseType();
+        expenseType.setName(expenseTypeDTO.getName());
+        return expenseType;
+    }
+
 }

@@ -1,13 +1,14 @@
 package com.diginamic.mission_note_de_frais.controller;
 
+import com.diginamic.mission_note_de_frais.exception.FunctionalException;
 import com.diginamic.mission_note_de_frais.model.dto.ExpenseTypeDTO;
+import com.diginamic.mission_note_de_frais.model.entity.ExpenseType;
 import com.diginamic.mission_note_de_frais.model.mapper.ExpenseTypeMapper;
 import com.diginamic.mission_note_de_frais.service.ExpenseTypeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -64,5 +65,79 @@ public class ExpenseTypeController {
     @GetMapping("/name/{name}")
     public ExpenseTypeDTO getExpenseTypeByName(@PathVariable String name) {
         return expenseTypeMapper.toDto(expenseTypeService.extractExpenseTypeByName(name));
+    }
+
+    /**
+     * Ajoute une nouvelle nature de frais.
+     *
+     * @param newExpenseType l'objet DTO de la nature de frais à ajouter
+     * @return ResponseEntity avec le statut HTTP et un message.
+     */
+    @PostMapping
+    public ResponseEntity<String> addExpenseType(@RequestBody ExpenseTypeDTO newExpenseType) {
+        try {
+            ExpenseType expenseType = expenseTypeMapper.toEntity(newExpenseType);
+
+            boolean result = expenseTypeService.insertExpenseType(expenseType);
+
+            if (result) {
+                return new ResponseEntity<>("Nature de frais insérée avec succès", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Echec de l'insertion : La nature de frais n'a pas pu être insérée pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (FunctionalException e) {
+            return new ResponseEntity<>("Erreur de validation (400) : " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Met à jour une nature de frais existante.
+     *
+     * @param id l'identifiant de la nature de frais à mettre à jour
+     * @param expenseTypeDTO l'objet DTO contenant les nouvelles informations
+     * @return Un message indiquant le succès ou l'échec de l'opération
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateExpenseType(@PathVariable Long id, @RequestBody ExpenseTypeDTO expenseTypeDTO) {
+        try {
+            ExpenseType expenseType = expenseTypeMapper.toEntity(expenseTypeDTO);
+            expenseType.setId(id);
+            boolean result = expenseTypeService.updateExpenseType(expenseType);
+
+            if (result) {
+                return new ResponseEntity<>("Nature de frais mise à jour avec succès", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Echec de la mise à jour : La nature de frais n'a pas pu être mise à jour pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (FunctionalException e) {
+            return new ResponseEntity<>("Erreur de validation (400) : " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Supprime une nature de frais par son ID.
+     *
+     * @param id l'identifiant de la nature de frais à supprimer
+     * @return Un message indiquant le succès ou l'échec de l'opération
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteExpenseType(@PathVariable Long id) {
+        try {
+            boolean result = expenseTypeService.deleteExpenseType(id);
+
+            if (result) {
+                return new ResponseEntity<>("Nature de frais supprimée avec succès", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Echec de la suppression : La nature de frais n'a pas pu être supprimée pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (FunctionalException e) {
+            return new ResponseEntity<>("Erreur de validation (400) : " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
