@@ -93,9 +93,4 @@ public class TransportController {
 		transportService.deleteTransport(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
-	@GetMapping("/{transportId}/missions")
-    public List<MissionDTO> getMissionsForTransport(@PathVariable Long transportId) {
-        return transportService.getMissionsForTransport(transportId).stream().toList();
-    }
 }
