@@ -3,8 +3,10 @@ package com.diginamic.mission_note_de_frais.service;
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Transport;
+import com.diginamic.mission_note_de_frais.model.mapper.StatusMapper;
 import com.diginamic.mission_note_de_frais.model.mapper.TransportMapper;
 import com.diginamic.mission_note_de_frais.model.repository.TransportRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ public class TransportServiceImpl implements TransportService {
 
 	private final TransportRepository transportRepository;
 	private final TransportMapper transportMapper;
+	private final StatusMapper statusMapper;
 
 	/**
 	 * Constructeur de {@link TransportServiceImpl}.
@@ -36,9 +39,10 @@ public class TransportServiceImpl implements TransportService {
 	 * @param transportRepository le repository pour accéder aux données de
 	 *                            transport
 	 */
-	public TransportServiceImpl(TransportRepository transportRepository, TransportMapper transportMapper) {
+	public TransportServiceImpl(TransportRepository transportRepository, TransportMapper transportMapper, StatusMapper statusMapper) {
 		this.transportRepository = transportRepository;
 		this.transportMapper = transportMapper;
+		this.statusMapper = statusMapper;
 	}
 
 	/**
@@ -59,6 +63,19 @@ public class TransportServiceImpl implements TransportService {
     }
 
 	/**
+	 * Récupère un moyen de transport par son identifiant.
+	 *
+	 * @param id L'identifiant unique du moyen de transport à récupérer.
+	 * @return L'entité `Transport` correspondant à l'identifiant.
+	 * @throws EntityNotFoundException si aucun n'est trouvée pour l'identifiant fourni.
+	 */
+	@Override
+	public Transport getTransportById(Long id) {
+		return transportRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Moyen de transport introuvable pour l'ID : " + id));
+	}
+
+	/**
 	 * Crée un nouveau moyen de transport.
 	 * <p>
 	 * Cette méthode vérifie d'abord si un moyen de transport avec le même nom
@@ -72,7 +89,6 @@ public class TransportServiceImpl implements TransportService {
 	 * @throws IllegalArgumentException si un transport avec le même nom existe déjà
 	 */
 	@Override
-	@Transactional
 	public TransportDTO createTransport(TransportDTO transportDTO) {
 		if (transportRepository.existsByName(transportDTO.getName())) {
 			throw new IllegalArgumentException("Un transport avec ce nom existe déjà.");
@@ -149,7 +165,7 @@ public class TransportServiceImpl implements TransportService {
                         mission.getEndDate(),
                         mission.getStartTown(),
                         mission.getEndTown(),
-                        mission.getStatus().getName()
+						statusMapper.apply(mission.getStatus())
                 ))
                 .collect(Collectors.toSet());
     }

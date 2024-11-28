@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Modèle représentant une ligne de frais par sa date, sa nature, sa description, son montant,
@@ -33,7 +33,7 @@ public class Expense {
      */
     @NonNull
     @Column(nullable = false)
-    private Date date;
+    private LocalDate date;
 
     /**
      * Nature de la ligne frais
@@ -52,14 +52,14 @@ public class Expense {
      */
     @NonNull
     @Column(nullable = false)
-    private Float amount;
+    private Double amount;
 
     /**
      * Pourcentage de TVA de la ligne de frais
      */
     @NonNull
     @Column(nullable = false)
-    private Float tax;
+    private Double tax;
 
     /**
      * Note de frais associée

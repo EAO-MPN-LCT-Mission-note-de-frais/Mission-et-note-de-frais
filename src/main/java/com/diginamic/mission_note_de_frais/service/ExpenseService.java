@@ -53,5 +53,5 @@ public interface ExpenseService {
      * @param id L'identifiant unique de la ligne de frais à supprimer.
      * @return `true` si la suppression a réussi, `false` sinon.
      */
-    boolean deleteExpense(Long id);
+    boolean deleteExpense(Long id) throws FunctionalException;
 }

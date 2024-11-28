@@ -4,8 +4,11 @@ package com.diginamic.mission_note_de_frais.model.dto;
 import java.time.LocalDate;
 import java.util.Set;
 
-import com.diginamic.mission_note_de_frais.model.entity.Status.MissionStatus;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class MissionDTO {
   /**
    * The unique identifier for the mission.
@@ -36,143 +39,33 @@ public class MissionDTO {
    * The current status of the mission.
    */
   private StatusDTO status;
-  
+
+  /**
+   * The transports of the mission
+   */
   private Set<Long> transportIds;
 
-
-  public MissionDTO() {
-  }
-  
-  public MissionDTO(Integer id2, LocalDate startDate2, LocalDate endDate2, String startTown2, String endTown2,
-		MissionStatus name) {
-	  // TODO Auto-generated constructor stub
-  }
-
-  @Override
-  public String toString() {
-    return "MissionDto{" +
-        "id=" + id +
-        ", startDate=" + startDate +
-        ", endDate=" + endDate +
-        ", startTown='" + startTown + '\'' +
-        ", endTown='" + endTown + '\'' +
-        ", status=" + status +
-        '}';
-  }
+  /**
+   * A summarized version of the expense report associated with this mission.
+   */
+  private SimpleExpenseReportDTO expenseReport;
 
   /**
-   * Gets the ID of the mission.
+   * Constructor for MissionDTO.
    *
-   * @return the ID of the mission
+   * @param id        the unique identifier for the mission
+   * @param startDate the date the mission started
+   * @param endDate   the date the mission ended
+   * @param startTown the town where the mission started
+   * @param endTown   the town where the mission ended
+   * @param status      the current status of the mission
    */
-  public Integer getId() {
-    return id;
-  }
-
-  /**
-   * Sets the ID of the mission.
-   *
-   * @param id the ID to set
-   */
-  public void setId(Integer id) {
+  public MissionDTO(Integer id, LocalDate startDate, LocalDate endDate, String startTown, String endTown, StatusDTO status) {
     this.id = id;
-  }
-
-  /**
-   * Gets the start date of the mission.
-   *
-   * @return the start date of the mission
-   */
-  public LocalDate getStartDate() {
-    return startDate;
-  }
-
-  /**
-   * Sets the start date of the mission.
-   *
-   * @param startDate the start date to set
-   */
-  public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
-  }
-
-  /**
-   * Gets the end date of the mission.
-   *
-   * @return the end date of the mission
-   */
-  public LocalDate getEndDate() {
-    return endDate;
-  }
-
-  /**
-   * Sets the end date of the mission.
-   *
-   * @param endDate the end date to set
-   */
-  public void setEndDate(LocalDate endDate) {
     this.endDate = endDate;
-  }
-
-  /**
-   * Gets the start town of the mission.
-   *
-   * @return the start town of the mission
-   */
-  public String getStartTown() {
-    return startTown;
-  }
-
-  /**
-   * Sets the start town of the mission.
-   *
-   * @param startTown the start town to set
-   */
-  public void setStartTown(String startTown) {
     this.startTown = startTown;
-  }
-
-  /**
-   * Gets the end town of the mission.
-   *
-   * @return the end town of the mission
-   */
-  public String getEndTown() {
-    return endTown;
-  }
-
-  /**
-   * Sets the end town of the mission.
-   *
-   * @param endTown the end town to set
-   */
-  public void setEndTown(String endTown) {
     this.endTown = endTown;
-  }
-
-  /**
-   * Gets the status of the mission.
-   *
-   * @return the status of the mission
-   */
-  public StatusDTO getStatus() {
-    return status;
-  }
-
-  /**
-   * Sets the status of the mission.
-   *
-   * @param status the status to set
-   */
-  public void setStatus(StatusDTO status) {
     this.status = status;
-  }
-  
-  public Set<Long> getTransportIds() {
-	return transportIds;
-  }
-
-  public void setTransportIds(Set<Long> transportIds) {
-	this.transportIds = transportIds;
   }
 }

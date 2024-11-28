@@ -3,7 +3,7 @@ package com.diginamic.mission_note_de_frais.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *  DTO représentant une ligne de frais destinée à l'affichage
@@ -15,9 +15,14 @@ import java.util.Date;
 public class ExpenseDTO {
 
     /**
+     * Identifiant de la ligne de frais
+     */
+    private Long id;
+
+    /**
      * Date de la ligne de frais
      */
-    private Date date;
+    private LocalDate date;
 
     /**
      * Description de la ligne de frais
@@ -32,10 +37,15 @@ public class ExpenseDTO {
     /**
      * Montant de la ligne de frais
      */
-    private Float amount;
+    private Double amount;
 
     /**
      * Pourcentage de TVA de la ligne de frais
      */
-    private Float tax;
+    private Double tax;
+
+    /**
+     * Identifiant de la note de frais
+     */
+    private Long expenseReportId;
 }
