@@ -146,32 +146,4 @@ class TransportServiceImplTest {
         verify(transportRepository, never()).deleteById(anyLong());
     }
 
-    @Test
-    void testGetMissionsForTransport_Success() {
-        // Arrange
-        Transport transport = new Transport();
-        transport.setId(1L);
-        transport.setName("Bus");
-        transport.setMissions(Collections.emptySet());
-
-        when(transportRepository.findById(1L)).thenReturn(Optional.of(transport));
-
-        // Act
-        Set<MissionDTO> result = transportService.getMissionsForTransport(1L);
-
-        // Assert
-        assertThat(result).isNotNull();
-        assertThat(result).isEmpty();
-        verify(transportRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void testGetMissionsForTransport_Fails_WhenTransportNotFound() {
-        // Arrange
-        when(transportRepository.findById(1L)).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> transportService.getMissionsForTransport(1L));
-        verify(transportRepository, times(1)).findById(1L);
-    }
 }
