@@ -1,7 +1,6 @@
 package com.diginamic.mission_note_de_frais.service;
 
 import com.diginamic.mission_note_de_frais.exception.FunctionalException;
-import com.diginamic.mission_note_de_frais.model.entity.Expense;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseReport;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
 import com.diginamic.mission_note_de_frais.model.entity.Status;
@@ -63,11 +62,6 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
         if (mission == null || endDate == null || endDate.isAfter(LocalDate.now())) {
             throw new FunctionalException("La mission doit être terminée (date de fin atteinte) pour ajouter une note de frais");
         }
-
-        // Calcul du montant total
-        double totalAmount = expenseReport.getExpenses().stream()
-                .mapToDouble(Expense::getAmount)
-                .sum();
 
         // Utilisation d'Optional pour gérer l'absence du statut initial
         Status initialStatus = statusRepository.findByName(Status.MissionStatus.INITIALE)

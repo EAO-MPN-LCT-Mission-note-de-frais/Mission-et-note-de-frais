@@ -36,7 +36,7 @@ public class ExpenseReport {
    * Liste des lignes de frais associées
    */
   @NonNull
-  @OneToMany(mappedBy = "expenseReport")
+  @OneToMany(mappedBy = "expenseReport", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Expense> expenses = new ArrayList<>();
 
   /**

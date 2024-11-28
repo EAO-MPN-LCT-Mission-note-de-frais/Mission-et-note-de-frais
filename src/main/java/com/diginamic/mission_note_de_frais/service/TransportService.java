@@ -1,11 +1,9 @@
 package com.diginamic.mission_note_de_frais.service;
 
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
-import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Transport;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Interface qui définit les services pour gérer les moyens de transport.
@@ -69,11 +67,4 @@ public interface TransportService {
      */
     void deleteTransport(Long id);
 
-    /**
-     * Get missions associated with a transport.
-     *
-     * @param transportId the identifier of the transport
-     * @return a set of {@link MissionDTO} associated with the transport
-     */
-    Set<MissionDTO> getMissionsForTransport(Long transportId);
 }
