@@ -2,6 +2,7 @@ package com.diginamic.mission_note_de_frais.service;
 
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
+import com.diginamic.mission_note_de_frais.model.entity.Transport;
 
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,14 @@ public interface TransportService {
      *         transport
      */
     List<TransportDTO> getAllTransports();
+
+    /**
+     * Récupère un moyen de transport par son identifiant.
+     *
+     * @param id L'identifiant unique du transport à récupérer.
+     * @return L'entité `Transport` correspondant à l'identifiant.
+     */
+    Transport getTransportById(Long id);
 
     /**
      * Crée un nouveau moyen de transport.

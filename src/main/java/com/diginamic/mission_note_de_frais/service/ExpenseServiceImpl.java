@@ -3,7 +3,7 @@ package com.diginamic.mission_note_de_frais.service;
 import com.diginamic.mission_note_de_frais.exception.FunctionalException;
 import com.diginamic.mission_note_de_frais.model.entity.Expense;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseReport;
-import com.diginamic.mission_note_de_frais.model.repository.ExpenseReportRepository;
+import com.diginamic.mission_note_de_frais.model.entity.Status;
 import com.diginamic.mission_note_de_frais.model.repository.ExpenseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
-
-    @Autowired
-    private ExpenseReportRepository expenseReportRepository;
 
     /**
      * Récupère une ligne de frais par son identifiant.
@@ -70,8 +67,8 @@ public class ExpenseServiceImpl implements ExpenseService {
         if(expense.getDate().isBefore(expense.getExpenseReport().getMission().getStartDate())) {
             throw new FunctionalException("La date de la dépense ne peut pas être antérieure à la date de début de la mission");
         }
-        String status = expense.getExpenseReport().getStatus().getName().name();
-        if (!status.equals("INITIALE") && !status.equals("REJETEE")) {
+        Status.MissionStatus status = expense.getExpenseReport().getStatus().getName();
+        if (status != Status.MissionStatus.INITIALE && status != Status.MissionStatus.REJETEE) {
             throw new FunctionalException("La note de frais doit être au statut INITIAL ou REJETÉE pour ajouter une dépense");
         }
         expenseRepository.save(expense);

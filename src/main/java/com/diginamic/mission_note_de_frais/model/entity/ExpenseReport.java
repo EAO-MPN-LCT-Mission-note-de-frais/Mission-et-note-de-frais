@@ -42,7 +42,7 @@ public class ExpenseReport {
   /**
    * Mission rattachée à la note de frais
    */
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "mission_id")
   private Mission mission;
 
