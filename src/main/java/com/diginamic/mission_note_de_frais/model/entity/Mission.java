@@ -8,18 +8,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
  * Entity class representing a mission.
  */
 @Entity(name = "missions")
-@Data
 public class Mission implements Mappable<Mission, MissionDTO> {
   /**
    * The unique identifier for the mission.
@@ -60,6 +63,14 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   @JoinColumn(name = "status_id")
   Status status;
 
+  @ManyToMany
+  @JoinTable(
+      name = "mission_transport",
+      joinColumns = @JoinColumn(name = "mission_id"),
+      inverseJoinColumns = @JoinColumn(name = "transport_id")
+  )
+  private Set<Transport> transports = new HashSet<>();
+
   /**
    * The expense report associated with the mission.
    */
@@ -70,4 +81,134 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   public MissionDTO map(Function<? super Mission, ? extends MissionDTO> mapper) {
     return mapper.apply(this);
   }
+
+  @Override
+  public String toString() {
+    return "Mission{" +
+        "id=" + id +
+        ", startDate=" + startDate +
+        ", endDate=" + endDate +
+        ", startTown='" + startTown + '\'' +
+        ", endTown='" + endTown + '\'' +
+        ", status=" + status +
+        '}';
+  }
+
+  /**
+   * Gets the ID of the mission.
+   *
+   * @return the ID of the mission
+   */
+  public Integer getId() {
+    return id;
+  }
+
+  /**
+   * Sets the ID of the mission.
+   *
+   * @param id the ID to set
+   */
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  /**
+   * Gets the start date of the mission.
+   *
+   * @return the start date of the mission
+   */
+  public LocalDate getStartDate() {
+    return startDate;
+  }
+
+  /**
+   * Sets the start date of the mission.
+   *
+   * @param startDate the start date to set
+   */
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
+
+  /**
+   * Gets the end date of the mission.
+   *
+   * @return the end date of the mission
+   */
+  public LocalDate getEndDate() {
+    return endDate;
+  }
+
+  /**
+   * Sets the end date of the mission.
+   *
+   * @param endDate the end date to set
+   */
+  public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+  }
+
+  /**
+   * Gets the town where the mission started.
+   *
+   * @return the town where the mission started
+   */
+  public String getStartTown() {
+    return startTown;
+  }
+
+  /**
+   * Sets the town where the mission started.
+   *
+   * @param startTown the town where the mission started
+   */
+  public void setStartTown(String startTown) {
+    this.startTown = startTown;
+  }
+
+  /**
+   * Gets the town where the mission ended.
+   *
+   * @return the town where the mission ended
+   */
+  public String getEndTown() {
+    return endTown;
+  }
+
+  /**
+   * Sets the town where the mission ended.
+   *
+   * @param endTown the town where the mission ended
+   */
+  public void setEndTown(String endTown) {
+    this.endTown = endTown;
+  }
+
+  /**
+   * Gets the status of the mission.
+   *
+   * @return the status of the mission
+   */
+  public Status getStatus() {
+    return status;
+  }
+
+  /**
+   * Sets the status of the mission.
+   *
+   * @param status the status of the mission
+   */
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
+  public Set<Transport> getTransports() {
+	return transports;
+  }
+
+  public void setTransports(Set<Transport> transports) {
+	this.transports = transports;
+  }
+
+
 }
