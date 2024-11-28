@@ -35,3 +35,31 @@ VALUES (948162, 'COLLABORATOR'),
        (627481, 'MANAGER'),
        (385209, 'MANAGER'),
        (627481, 'ADMINISTRATOR');
+       
+# Insert user role data     
+INSERT INTO `missions` (`id`, `end_date`, `end_town`, `start_date`, `start_town`, `status_id`) VALUES
+(2, '2024-01-10', 'Nantes', '2024-01-01', 'Chartres', 1),
+(3, '2024-01-10', 'Lyon', '2024-01-01', 'Paris', 1),
+(4, '2024-11-10', 'Marseille', '2024-01-09', 'Nantes', 1),
+(5, '2024-11-10', 'Nantes', '2022-01-09', 'Lyon', 1),
+(6, '2027-11-10', 'Nogent-le-rotrou', '2022-01-09', 'LeMans', 1);
+
+# Insert transport data
+INSERT INTO `transport` (`id`, `name`) VALUES
+(6, 'Avion'),
+(7, 'Bateau'),
+(1, 'Bus'),
+(4, 'Covoiturage'),
+(2, 'Train'),
+(5, 'Tram'),
+(3, 'Voiture');
+
+# Insert mission_transport data
+INSERT INTO `mission_transport` (`mission_id`, `transport_id`) VALUES
+(2, 1),
+(2, 2),
+(3, 2),
+(5, 2),
+(6, 2),
+(4, 5),
+(4, 6);

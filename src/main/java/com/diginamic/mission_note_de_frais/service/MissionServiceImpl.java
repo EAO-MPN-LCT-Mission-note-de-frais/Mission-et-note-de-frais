@@ -2,31 +2,40 @@ package com.diginamic.mission_note_de_frais.service;
 
 import com.diginamic.mission_note_de_frais.model.repository.MissionRepository;
 import com.diginamic.mission_note_de_frais.model.repository.StatusRepository;
+import com.diginamic.mission_note_de_frais.model.repository.TransportRepository;
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
+import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 import com.diginamic.mission_note_de_frais.model.mapper.MissionMapper;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
 import com.diginamic.mission_note_de_frais.model.entity.Status.MissionStatus;
+import com.diginamic.mission_note_de_frais.model.entity.Transport;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MissionServiceImpl implements MissionService {
-  private final MissionRepository missionRepository;
-  private final StatusRepository statusRepository;
-  private final MissionMapper mapper;
+    private final MissionRepository missionRepository;
+    private final TransportRepository transportRepository;
+    private final StatusRepository statusRepository;
+    private final MissionMapper mapper;
 
-  public MissionServiceImpl(
-      MissionRepository missionRepository,
-      StatusRepository statusRepository,
-      MissionMapper mapper
-  ) {
-    this.missionRepository = missionRepository;
-    this.statusRepository = statusRepository;
-    this.mapper = mapper;
-  }
+    public MissionServiceImpl(
+            MissionRepository missionRepository,
+            TransportRepository transportRepository,
+            StatusRepository statusRepository,
+            MissionMapper mapper
+    ) {
+        this.missionRepository = missionRepository;
+        this.transportRepository = transportRepository;
+        this.statusRepository = statusRepository;
+        this.mapper = mapper;
+    }
 
   @Override
   public MissionDTO createMission(MissionDTO missionDto) {
@@ -87,5 +96,43 @@ public class MissionServiceImpl implements MissionService {
     // If the entity is not found, do nothing
     missionRepository.findById(missionId)
         .ifPresent(entity -> missionRepository.delete(entity));
+  }
+  
+  @Override
+  public MissionDTO addTransportToMission(Integer missionId, Long transportId) {
+      Mission mission = missionRepository.findById(missionId)
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mission not found"));
+
+      Transport transport = transportRepository.findById(transportId)
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transport not found"));
+
+      mission.getTransports().add(transport);
+      missionRepository.save(mission);
+
+      return mapper.apply(mission);
+  }
+
+  @Override
+  public MissionDTO removeTransportFromMission(Integer missionId, Long transportId) {
+      Mission mission = missionRepository.findById(missionId)
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mission not found"));
+
+      Transport transport = transportRepository.findById(transportId)
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transport not found"));
+
+      mission.getTransports().remove(transport);
+      missionRepository.save(mission);
+
+      return mapper.apply(mission);
+  }
+
+  @Override
+  public Set<TransportDTO> getTransportsForMission(Integer missionId) {
+      Mission mission = missionRepository.findById(missionId)
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mission not found"));
+
+      return mission.getTransports().stream()
+              .map(transport -> new TransportDTO(transport.getId(), transport.getName()))
+              .collect(Collectors.toSet());
   }
 }

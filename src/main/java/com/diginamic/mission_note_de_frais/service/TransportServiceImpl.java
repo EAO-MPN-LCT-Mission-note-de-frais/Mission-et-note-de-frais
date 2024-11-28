@@ -1,13 +1,16 @@
 package com.diginamic.mission_note_de_frais.service;
 
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Transport;
+import com.diginamic.mission_note_de_frais.model.mapper.TransportMapper;
 import com.diginamic.mission_note_de_frais.model.repository.TransportRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class TransportServiceImpl implements TransportService {
 
 	private final TransportRepository transportRepository;
+	private final TransportMapper transportMapper;
 
 	/**
 	 * Constructeur de {@link TransportServiceImpl}.
@@ -32,8 +36,9 @@ public class TransportServiceImpl implements TransportService {
 	 * @param transportRepository le repository pour accéder aux données de
 	 *                            transport
 	 */
-	public TransportServiceImpl(TransportRepository transportRepository) {
+	public TransportServiceImpl(TransportRepository transportRepository, TransportMapper transportMapper) {
 		this.transportRepository = transportRepository;
+		this.transportMapper = transportMapper;
 	}
 
 	/**
@@ -47,11 +52,11 @@ public class TransportServiceImpl implements TransportService {
 	 *         transport
 	 */
 	@Override
-	public List<TransportDTO> getAllTransports() {
-		List<Transport> transports = transportRepository.findAll();
-		return transports.stream().map(transport -> new TransportDTO(transport.getId(), transport.getName()))
-				.collect(Collectors.toList());
-	}
+    public List<TransportDTO> getAllTransports() {
+        return transportRepository.findAll().stream()
+                .map(transportMapper)
+                .collect(Collectors.toList());
+    }
 
 	/**
 	 * Crée un nouveau moyen de transport.
@@ -132,4 +137,20 @@ public class TransportServiceImpl implements TransportService {
 
 		transportRepository.deleteById(id);
 	}
+
+	@Override
+    public Set<MissionDTO> getMissionsForTransport(Long transportId) {
+        Transport transport = transportRepository.findById(transportId)
+                .orElseThrow(() -> new IllegalArgumentException("Transport introuvable."));
+        return transport.getMissions().stream()
+                .map(mission -> new MissionDTO(
+                        mission.getId(),
+                        mission.getStartDate(),
+                        mission.getEndDate(),
+                        mission.getStartTown(),
+                        mission.getEndTown(),
+                        mission.getStatus().getName()
+                ))
+                .collect(Collectors.toSet());
+    }
 }

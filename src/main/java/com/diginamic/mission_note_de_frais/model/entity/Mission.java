@@ -8,9 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -56,6 +60,14 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   @ManyToOne()
   @JoinColumn(name = "status_id")
   Status status;
+  
+  @ManyToMany
+  @JoinTable(
+      name = "mission_transport",
+      joinColumns = @JoinColumn(name = "mission_id"),
+      inverseJoinColumns = @JoinColumn(name = "transport_id")
+  )
+  private Set<Transport> transports = new HashSet<>();
 
   @Override
   public MissionDTO map(Function<? super Mission, ? extends MissionDTO> mapper) {
@@ -181,4 +193,14 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   public void setStatus(Status status) {
     this.status = status;
   }
+
+  public Set<Transport> getTransports() {
+	return transports;
+  }
+	
+  public void setTransports(Set<Transport> transports) {
+	this.transports = transports;
+  }
+  
+  
 }

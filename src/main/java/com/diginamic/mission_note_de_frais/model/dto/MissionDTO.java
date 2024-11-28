@@ -2,6 +2,9 @@ package com.diginamic.mission_note_de_frais.model.dto;
 
 
 import java.time.LocalDate;
+import java.util.Set;
+
+import com.diginamic.mission_note_de_frais.model.entity.Status.MissionStatus;
 
 public class MissionDTO {
   /**
@@ -33,6 +36,17 @@ public class MissionDTO {
    * The current status of the mission.
    */
   private StatusDTO status;
+  
+  private Set<Long> transportIds;
+
+
+  public MissionDTO() {
+  }
+  
+  public MissionDTO(Integer id2, LocalDate startDate2, LocalDate endDate2, String startTown2, String endTown2,
+		MissionStatus name) {
+	  // TODO Auto-generated constructor stub
+  }
 
   @Override
   public String toString() {
@@ -152,5 +166,13 @@ public class MissionDTO {
    */
   public void setStatus(StatusDTO status) {
     this.status = status;
+  }
+  
+  public Set<Long> getTransportIds() {
+	return transportIds;
+  }
+
+  public void setTransportIds(Set<Long> transportIds) {
+	this.transportIds = transportIds;
   }
 }

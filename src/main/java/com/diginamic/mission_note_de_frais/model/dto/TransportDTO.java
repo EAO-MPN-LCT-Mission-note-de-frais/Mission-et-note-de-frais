@@ -1,5 +1,7 @@
 package com.diginamic.mission_note_de_frais.model.dto;
 
+import java.util.Set;
+
 /**
  * Data Transfer Object (DTO) représentant un moyen de transport.
  * <p>
@@ -18,6 +20,11 @@ public class TransportDTO {
 	 * Nom du moyen de transport.
 	 */
 	private String name;
+
+	/**
+	 * Identifiants des missions liées au transport.
+	 */
+	private Set<Long> missionIds;
 
 	/**
 	 * Constructeur par défaut.
@@ -71,4 +78,23 @@ public class TransportDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	/**
+	 * Récupére les id des missions liées au transport.
+	 * 
+	 * @return id des missions
+	 */
+	public Set<Long> getMissionIds() {
+		return missionIds;
+	}
+
+	/**
+	 * Définit l'id des missions liés au transport.
+	 * 
+	 * @param missionIds id des missions
+	 */
+	public void setMissionIds(Set<Long> missionIds) {
+		this.missionIds = missionIds;
+	}
+
 }

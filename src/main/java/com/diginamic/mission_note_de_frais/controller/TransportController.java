@@ -3,6 +3,8 @@ package com.diginamic.mission_note_de_frais.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 import com.diginamic.mission_note_de_frais.service.TransportService;
 
@@ -16,7 +18,7 @@ import java.util.List;
  * avec le {@link TransportService} pour effectuer les opérations métier.
  */
 @RestController
-@RequestMapping("/api/transports")
+@RequestMapping("/transports")
 public class TransportController {
 
 	private final TransportService transportService;
@@ -91,4 +93,9 @@ public class TransportController {
 		transportService.deleteTransport(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	
+	@GetMapping("/{transportId}/missions")
+    public List<MissionDTO> getMissionsForTransport(@PathVariable Long transportId) {
+        return transportService.getMissionsForTransport(transportId).stream().toList();
+    }
 }
