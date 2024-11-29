@@ -85,7 +85,7 @@ public class ExpenseReportController {
                     .collect(Collectors.toList());
 
             // Générer le PDF
-            byte[] pdfBytes = pdfGenerator.generatePdf(expenseReportDTO, missionDTO, expenseDTOs);
+            byte[] pdfBytes = PdfGenerator.generatePdf(expenseReportDTO, missionDTO, expenseDTOs);
 
             // Configurer les entêtes de la réponse
             HttpHeaders headers = new HttpHeaders();
@@ -94,6 +94,7 @@ public class ExpenseReportController {
 
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
