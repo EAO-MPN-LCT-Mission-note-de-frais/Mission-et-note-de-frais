@@ -1,6 +1,7 @@
 package com.diginamic.mission_note_de_frais.service;
 
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 
 import java.util.List;
@@ -74,4 +75,12 @@ public interface MissionService {
      * @return the validated {@link MissionDTO}
      */
     MissionDTO validateMission(Integer missionId);
+    
+    /**
+     * Get the mission type associated with a mission.
+     *
+     * @param missionId the identifier of the mission
+     * @return the {@link MissionTypeDTO} associated with the mission
+     */
+    MissionTypeDTO getMissionTypeForMission(Integer missionId);
 }

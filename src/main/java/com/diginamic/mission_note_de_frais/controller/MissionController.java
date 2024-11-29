@@ -1,6 +1,7 @@
 package com.diginamic.mission_note_de_frais.controller;
 
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 import com.diginamic.mission_note_de_frais.service.MissionService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,6 @@ public class MissionController {
   public MissionDTO createMission(
       @RequestBody MissionDTO missionDto
   ) {
-    // Create a new mission
     return missionService.createMission(missionDto);
   }
 
@@ -73,5 +73,10 @@ public class MissionController {
   @GetMapping("/missions/{missionId}/transports")
   public List<TransportDTO> getTransportsForMission(@PathVariable Integer missionId) {
       return missionService.getTransportsForMission(missionId).stream().toList();
+  }
+
+  @GetMapping("/missions/{missionId}/mission-types")
+  public MissionTypeDTO getMissionTypeForMission(@PathVariable Integer missionId) {
+      return missionService.getMissionTypeForMission(missionId);
   }
 }

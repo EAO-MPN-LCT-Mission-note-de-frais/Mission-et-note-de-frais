@@ -3,6 +3,7 @@ package com.diginamic.mission_note_de_frais.model.repository;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
@@ -18,4 +19,12 @@ public interface MissionRepository extends ListCrudRepository<Mission, Integer> 
      * @return une liste des missions associées
      */
     List<Mission> findByTransports_Id(Long transportId);
+
+    /**
+     * Récupère les missions associées à un type de mission donné.
+     *
+     * @param missionTypeId l'identifiant du type de mission
+     * @return une liste des missions associées
+     */
+    List<Mission> findByMissionType_Id(Long missionTypeId);
 }

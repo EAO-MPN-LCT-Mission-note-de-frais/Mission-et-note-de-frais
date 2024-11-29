@@ -1,7 +1,11 @@
 package com.diginamic.mission_note_de_frais.model.mapper;
 
 import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
+import com.diginamic.mission_note_de_frais.model.entity.Mission;
 import com.diginamic.mission_note_de_frais.model.entity.MissionType;
+
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,23 +20,25 @@ public class MissionTypeMapper {
      * @param missionType l'entité à convertir
      * @return le DTO correspondant
      */
-    public MissionTypeDTO toDTO(MissionType missionType) {
-        if (missionType == null) {
-            return null;
-        }
+	public MissionTypeDTO toDTO(MissionType missionType) {
+	    if (missionType == null) {
+	        return null;
+	    }
 
-        return new MissionTypeDTO(
-                missionType.getId(),
-                missionType.getLabel(),
-                missionType.getIsCharged(),
-                missionType.getIsBonus(),
-                missionType.getAverageDailyRate(),
-                missionType.getBonusPercentage(),
-                missionType.getStartDate(),
-                missionType.getEndDate()
-        );
-    }
-
+	    return new MissionTypeDTO(
+	            missionType.getId(),
+	            missionType.getLabel(),
+	            missionType.getIsCharged(),
+	            missionType.getIsBonus(),
+	            missionType.getAverageDailyRate(),
+	            missionType.getBonusPercentage(),
+	            missionType.getStartDate(),
+	            missionType.getEndDate(),
+	            missionType.getMissions().stream()
+	                        .map(Mission::getId) 
+	                        .collect(Collectors.toSet())
+	    );
+	}
     /**
      * Convertit un DTO {@link MissionTypeDTO} en entité {@link MissionType}.
      *

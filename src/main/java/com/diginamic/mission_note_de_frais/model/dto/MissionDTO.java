@@ -49,6 +49,11 @@ public class MissionDTO {
    * A summarized version of the expense report associated with this mission.
    */
   private SimpleExpenseReportDTO expenseReport;
+  
+  /**
+   * 
+   */
+  private Long missionTypeId;
 
   /**
    * Constructor for MissionDTO.
@@ -60,12 +65,15 @@ public class MissionDTO {
    * @param endTown   the town where the mission ended
    * @param status      the current status of the mission
    */
-  public MissionDTO(Integer id, LocalDate startDate, LocalDate endDate, String startTown, String endTown, StatusDTO status) {
+  public MissionDTO(Integer id, LocalDate startDate, LocalDate endDate, String startTown, String endTown, StatusDTO status, Long missionTypeId) {
     this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
     this.startTown = startTown;
     this.endTown = endTown;
     this.status = status;
+    this.missionTypeId = missionTypeId;
   }
+  
+  
 }
