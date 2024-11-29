@@ -51,7 +51,7 @@ public class MissionDTO {
   private SimpleExpenseReportDTO expenseReport;
   
   /**
-   * 
+   * The identifier for the MissionType
    */
   private Long missionTypeId;
 

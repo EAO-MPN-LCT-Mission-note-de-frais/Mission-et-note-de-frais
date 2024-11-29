@@ -89,7 +89,7 @@ public class MissionType {
 	private Double bonusAmount;
 	
 	/**
-	 * 
+	 * Liste des missions liés au Type de mission.
 	 */
 	@OneToMany(mappedBy = "missionType", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Mission> missions = new HashSet<>();
