@@ -6,6 +6,14 @@
 # Checkout into the database
 use mission_note_de_frais;
 
+# This file contains the SQL script to populate the database with some data
+# It can be executed by the Spring Boot application when it starts by setting
+# the following property in the application.properties file:
+# spring.sql.init.mode=always
+
+# Checkout into the database
+use mission_note_de_frais;
+
 # Insert user data
 INSERT INTO users (id, email, first_name, last_name)
 VALUES (385209, 'bob.brown@yopmail.com', 'Bob', 'Brown'),
@@ -43,13 +51,13 @@ VALUES (1, '2023-01-20', 'Lyon', '2023-01-15', 'Paris', 1, 1),
        (3, '2023-03-15', 'Bordeaux', '2023-03-10', 'Toulouse', 2, 1),
        (4, '2023-04-20', 'Strasbourg', '2023-04-15', 'Nancy', 3, 5),
        (5, '2023-05-25', 'Lille', '2023-05-20', 'Roubaix', 3, 4),
-       (6, '2023-06-30', 'Nantes', '2023-06-25', 'Rennes', 0, 3);
+       (6, '2023-06-30', 'Nantes', '2023-06-25', 'Rennes', 4, 3);
      
 # Insert missionType data 
 INSERT INTO mission_type (id, average_daily_rate, bonus_amount, bonus_percentage, end_date, is_bonus, is_charged, label, start_date) 
 VALUES (1, 100, NULL, NULL, NULL, b'0', b'1', 'Maçonnerie', '2024-11-29'),
 	   (2, 350, NULL, NULL, NULL, b'0', b'1', 'Peinture', '2024-11-29'),
-	   (3, 400, NULL, 2,8, NULL, b'1', b'1', 'Logistique', '2024-11-29'),
+	   (3, 400, NULL, 2.8, NULL, b'1', b'1', 'Logistique', '2024-11-29'),
 	   (4, NULL, NULL, NULL, NULL, b'0', b'0', 'Bénévolat', '2024-11-29');
 
 # Insert transport data
@@ -95,6 +103,3 @@ VALUES (1, '2024-11-23', 121.35, 20, 1, 2),
        (4, '2024-11-25', 99.56, 10, 2, 2),
        (5, '2024-11-25', 8.30, 0, 3, 1),
        (6, '2024-11-26', 10, 0, 3, 4);
-
-
-
