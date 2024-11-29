@@ -44,7 +44,7 @@ public interface MissionService {
     /**
      * Add a transport to a mission.
      *
-     * @param missionId  the identifier of the mission
+     * @param missionId   the identifier of the mission
      * @param transportId the identifier of the transport
      * @return the updated {@link MissionDTO}
      */
@@ -53,7 +53,7 @@ public interface MissionService {
     /**
      * Remove a transport from a mission.
      *
-     * @param missionId  the identifier of the mission
+     * @param missionId   the identifier of the mission
      * @param transportId the identifier of the transport
      * @return the updated {@link MissionDTO}
      */
@@ -66,4 +66,12 @@ public interface MissionService {
      * @return a set of {@link TransportDTO} associated with the mission
      */
     Set<TransportDTO> getTransportsForMission(Integer missionId);
+
+    /**
+     * Validate a mission.
+     *
+     * @param missionId the identifier of the mission
+     * @return the validated {@link MissionDTO}
+     */
+    MissionDTO validateMission(Integer missionId);
 }
