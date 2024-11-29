@@ -1,17 +1,28 @@
 package com.diginamic.mission_note_de_frais.controller;
 
 import com.diginamic.mission_note_de_frais.exception.FunctionalException;
+import com.diginamic.mission_note_de_frais.model.dto.ExpenseDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.dto.SimpleExpenseReportDTO;
+import com.diginamic.mission_note_de_frais.model.entity.Expense;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseReport;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
+import com.diginamic.mission_note_de_frais.model.mapper.ExpenseMapper;
 import com.diginamic.mission_note_de_frais.model.mapper.MissionMapper;
 import com.diginamic.mission_note_de_frais.model.mapper.SimpleExpenseReportMapper;
 import com.diginamic.mission_note_de_frais.service.ExpenseReportServiceImpl;
+import com.diginamic.mission_note_de_frais.service.ExpenseServiceImpl;
 import com.diginamic.mission_note_de_frais.service.MissionServiceImpl;
+import com.diginamic.mission_note_de_frais.util.PdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Contrôleur REST pour gérer les opérations liées aux notes de frais.
@@ -27,13 +38,19 @@ public class ExpenseReportController {
     private ExpenseReportServiceImpl expenseReportService;
 
     @Autowired
-    private MissionServiceImpl missionService;
-
-    @Autowired
     private SimpleExpenseReportMapper expenseReportMapper;
 
     @Autowired
+    private MissionServiceImpl missionService;
+
+    @Autowired
     private MissionMapper missionMapper;
+
+    @Autowired
+    private ExpenseServiceImpl expenseService;
+
+    @Autowired
+    private ExpenseMapper expenseMapper;
 
     /**
      * Récupère une note de frais par son id.
@@ -44,6 +61,39 @@ public class ExpenseReportController {
     @GetMapping("/{id}")
     public SimpleExpenseReportDTO getExpenseReportById(@PathVariable Long id) {
         return expenseReportMapper.apply(expenseReportService.getExpenseReportById(id));
+    }
+
+    /**
+     * Exporter une note de frais sous forme de PDF.
+     *
+     * @param id l'identifiant de la note de frais
+     * @return Un fichier PDF représentant la note de frais avec les informations de mission et le tableau des dépenses
+     */
+    @GetMapping("/{id}/export-pdf")
+    public ResponseEntity<byte[]> exportExpenseReportToPdf(@PathVariable Long id) {
+        try {
+            // Récupération des DTO
+            ExpenseReport expenseReport = expenseReportService.getExpenseReportById(id);
+            SimpleExpenseReportDTO expenseReportDTO = expenseReportMapper.apply(expenseReport);
+            MissionDTO missionDTO = missionService.getMissionById(expenseReport.getMission().getId());
+            List<Expense> expenses = expenseService.extractExpensesByExpenseReport(expenseReport);
+            List<ExpenseDTO> expenseDTOs = expenses.stream()
+                    .map(expenseMapper::toDTO)
+                    .collect(Collectors.toList());
+
+            // Générer le PDF
+            byte[] pdfBytes = PdfGenerator.generatePdf(expenseReportDTO, missionDTO, expenseDTOs);
+
+            // Configurer les entêtes de la réponse
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "expense_report_" + id + ".pdf");
+
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
