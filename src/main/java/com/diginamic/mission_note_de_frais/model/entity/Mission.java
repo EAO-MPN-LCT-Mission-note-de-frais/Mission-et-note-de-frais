@@ -63,6 +63,13 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   @ManyToOne()
   @JoinColumn(name = "status_id")
   Status status;
+  
+  /**
+   * The Type of the mission
+   */
+  @ManyToOne
+  @JoinColumn(name = "mission_type_id", nullable = false)
+  private MissionType missionType;
 
   /**
    * The transports  of the mission

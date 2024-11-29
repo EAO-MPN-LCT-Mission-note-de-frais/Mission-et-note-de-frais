@@ -1,12 +1,16 @@
 package com.diginamic.mission_note_de_frais.model.entity;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 /**
  * Représente une entité "Nature de Mission" utilisée pour définir les
@@ -83,6 +87,12 @@ public class MissionType {
 	 * Ce champ est optionnel et peut être utilisé pour des calculs futurs.
 	 */
 	private Double bonusAmount;
+	
+	/**
+	 * Liste des missions liés au Type de mission.
+	 */
+	@OneToMany(mappedBy = "missionType", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Mission> missions = new HashSet<>();
 
 	// Getters et setters
 
@@ -248,4 +258,12 @@ public class MissionType {
 	public void setBonusAmount(Double bonusAmount) {
 		this.bonusAmount = bonusAmount;
 	}
+
+	public Set<Mission> getMissions() {
+		return missions;
+	}
+
+	public void setMissions(Set<Mission> missions) {
+		this.missions = missions;
+	}	
 }

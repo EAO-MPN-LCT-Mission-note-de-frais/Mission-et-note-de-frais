@@ -1,6 +1,7 @@
 package com.diginamic.mission_note_de_frais.model.dto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Représente un Data Transfer Object (DTO) pour la nature de mission. Utilisé
@@ -48,6 +49,11 @@ public class MissionTypeDTO {
 	 * Date de fin de validité de la nature de mission.
 	 */
 	private LocalDate endDate;
+	
+	/**
+     * Identifiants des missions associées à ce type de mission.
+     */
+    private Set<Integer> missionIds;
 
 	/**
 	 * Constructeur par défaut.
@@ -68,7 +74,7 @@ public class MissionTypeDTO {
 	 * @param endDate          la date de fin de validité
 	 */
 	public MissionTypeDTO(Long id, String label, Boolean isCharged, Boolean isBonus, Double averageDailyRate,
-			Double bonusPercentage, LocalDate startDate, LocalDate endDate) {
+			Double bonusPercentage, LocalDate startDate, LocalDate endDate, Set<Integer> missionIds) {
 		this.id = id;
 		this.label = label;
 		this.isCharged = isCharged;
@@ -77,6 +83,7 @@ public class MissionTypeDTO {
 		this.bonusPercentage = bonusPercentage;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.missionIds = missionIds;
 	}
 
 	/**
@@ -84,6 +91,10 @@ public class MissionTypeDTO {
 	 */
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -182,5 +193,13 @@ public class MissionTypeDTO {
 	 */
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
+	}
+
+	public Set<Integer> getMissionIds() {
+		return missionIds;
+	}
+
+	public void setMissionIds(Set<Integer> missionIds) {
+		this.missionIds = missionIds;
 	}
 }
