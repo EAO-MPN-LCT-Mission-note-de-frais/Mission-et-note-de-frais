@@ -44,6 +44,13 @@ VALUES (948162, 'COLLABORATOR'),
        (385209, 'MANAGER'),
        (627481, 'ADMINISTRATOR');
 
+# Insert missionType data
+INSERT INTO mission_type (id, average_daily_rate, bonus_amount, bonus_percentage, end_date, is_bonus, is_charged, label, start_date)
+VALUES (1, 100, NULL, NULL, NULL, b'0', b'1', 'Maçonnerie', '2024-11-29'),
+       (2, 350, NULL, NULL, NULL, b'0', b'1', 'Peinture', '2024-11-29'),
+       (3, 400, NULL, 2.8, NULL, b'1', b'1', 'Logistique', '2024-11-29'),
+       (4, NULL, NULL, NULL, NULL, b'0', b'0', 'Bénévolat', '2024-11-29');
+
 # Insert mission data
 INSERT INTO missions (id, end_date, end_town, start_date, start_town, mission_type_id, status_id)
 VALUES (1, '2023-01-20', 'Lyon', '2023-01-15', 'Paris', 1, 1),
@@ -52,13 +59,6 @@ VALUES (1, '2023-01-20', 'Lyon', '2023-01-15', 'Paris', 1, 1),
        (4, '2023-04-20', 'Strasbourg', '2023-04-15', 'Nancy', 3, 5),
        (5, '2023-05-25', 'Lille', '2023-05-20', 'Roubaix', 3, 4),
        (6, '2023-06-30', 'Nantes', '2023-06-25', 'Rennes', 4, 3);
-     
-# Insert missionType data 
-INSERT INTO mission_type (id, average_daily_rate, bonus_amount, bonus_percentage, end_date, is_bonus, is_charged, label, start_date) 
-VALUES (1, 100, NULL, NULL, NULL, b'0', b'1', 'Maçonnerie', '2024-11-29'),
-	   (2, 350, NULL, NULL, NULL, b'0', b'1', 'Peinture', '2024-11-29'),
-	   (3, 400, NULL, 2.8, NULL, b'1', b'1', 'Logistique', '2024-11-29'),
-	   (4, NULL, NULL, NULL, NULL, b'0', b'0', 'Bénévolat', '2024-11-29');
 
 # Insert transport data
 INSERT INTO transport (id, name)

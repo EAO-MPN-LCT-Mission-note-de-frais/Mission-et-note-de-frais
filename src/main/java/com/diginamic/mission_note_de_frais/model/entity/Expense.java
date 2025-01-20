@@ -1,10 +1,12 @@
 package com.diginamic.mission_note_de_frais.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
@@ -16,7 +18,9 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "EXPENSE")
-@Data
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class Expense {

@@ -4,10 +4,14 @@ package com.diginamic.mission_note_de_frais.model.dto;
 import java.time.LocalDate;
 import java.util.Set;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 public class MissionDTO {
   /**

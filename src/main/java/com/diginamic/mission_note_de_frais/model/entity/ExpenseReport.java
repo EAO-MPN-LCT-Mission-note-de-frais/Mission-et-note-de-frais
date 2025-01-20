@@ -9,8 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,9 @@ import java.util.List;
  * @author Marjory PRIN
  */
 @Entity(name = "EXPENSE_REPORT")
-@Data
+@Getter
+@Setter
+@ToString
 public class ExpenseReport {
 
   /**

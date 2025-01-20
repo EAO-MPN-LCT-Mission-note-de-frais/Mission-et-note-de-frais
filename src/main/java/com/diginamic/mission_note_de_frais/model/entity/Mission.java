@@ -12,7 +12,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -23,7 +25,9 @@ import java.util.function.Function;
  * Entity class representing a mission.
  */
 @Entity(name = "missions")
-@Data
+@Getter
+@Setter
+@ToString
 public class Mission implements Mappable<Mission, MissionDTO> {
   /**
    * The unique identifier for the mission.

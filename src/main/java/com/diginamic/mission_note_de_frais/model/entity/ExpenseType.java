@@ -13,7 +13,9 @@ import java.util.List;
  */
 @Entity()
 @Table(name = "EXPENSE_TYPE")
-@Data
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class ExpenseType {

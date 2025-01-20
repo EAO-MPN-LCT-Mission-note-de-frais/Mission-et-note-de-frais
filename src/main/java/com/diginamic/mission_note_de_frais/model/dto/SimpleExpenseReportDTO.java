@@ -1,8 +1,12 @@
 package com.diginamic.mission_note_de_frais.model.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class SimpleExpenseReportDTO {
   private Long id;
   private double amount;

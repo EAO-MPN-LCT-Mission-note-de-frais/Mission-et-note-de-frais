@@ -1,7 +1,9 @@
 package com.diginamic.mission_note_de_frais.model;
 
 import com.diginamic.mission_note_de_frais.model.entity.User.Role;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +17,9 @@ import java.util.Set;
  * This class represents an account with an email and a password.
  * With our own object, we can easily create a mock account for testing purposes.
  */
-@Data
+@Getter
+@Setter
+@ToString
 @Accessors(chain = true)
 public class Account implements UserDetails {
     /**

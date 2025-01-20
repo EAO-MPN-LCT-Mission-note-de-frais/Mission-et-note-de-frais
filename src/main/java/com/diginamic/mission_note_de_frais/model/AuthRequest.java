@@ -1,11 +1,15 @@
 package com.diginamic.mission_note_de_frais.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Represents a request to authenticate a user.
  */
-@Data
+@Getter
+@Setter
+@ToString
 public class AuthRequest {
     /**
      * The email of the user.
