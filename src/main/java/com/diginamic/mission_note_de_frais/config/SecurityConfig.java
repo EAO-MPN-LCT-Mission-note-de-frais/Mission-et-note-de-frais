@@ -33,7 +33,7 @@ public class SecurityConfig {
                         // Allow requests to /auth/** without authentication
                         .requestMatchers("/auth/**").permitAll()
                         // Require authentication for all other requests
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() //.authenticated()
                 );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
