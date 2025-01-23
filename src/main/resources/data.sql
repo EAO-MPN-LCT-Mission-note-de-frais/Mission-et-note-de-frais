@@ -49,7 +49,8 @@ INSERT INTO mission_type (id, average_daily_rate, bonus_amount, bonus_percentage
 VALUES (1, 100, NULL, NULL, NULL, b'0', b'1', 'Maçonnerie', '2024-11-29'),
        (2, 350, NULL, NULL, NULL, b'0', b'1', 'Peinture', '2024-11-29'),
        (3, 400, NULL, 2.8, NULL, b'1', b'1', 'Logistique', '2024-11-29'),
-       (4, NULL, NULL, NULL, NULL, b'0', b'0', 'Bénévolat', '2024-11-29');
+       (4, NULL, NULL, NULL, NULL, b'0', b'0', 'Bénévolat', '2024-11-29'),
+       (5, 100, NULL, NULL, '2024-11-29', 0, 1, 'Maçonnerie', '2023-11-29');
 
 # Insert mission data
 INSERT INTO missions (id, end_date, end_town, start_date, start_town, mission_type_id, status_id)

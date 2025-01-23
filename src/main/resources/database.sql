@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS credentials (
 
 -- Insertion des données dans la table credentials
 INSERT INTO credentials (id, created_at, password, updated_at, user_id)
-VALUES  (5, '2024-11-25 14:25:47.000000', '$2y$10$waPVWJNiZ9pjJ.V0kokCBuuho82lOBm/b9b9mWYhYsyVWFa5MGXjO', '2024-11-25 14:25:50.000000', 948162),
+VALUES (5, '2024-11-25 14:25:47.000000', '$2y$10$waPVWJNiZ9pjJ.V0kokCBuuho82lOBm/b9b9mWYhYsyVWFa5MGXjO', '2024-11-25 14:25:50.000000', 948162),
         (6, '2024-11-25 14:25:52.000000', '$2y$10$MUmM.ghfpAE.pJ4x9U3vQ.OziNG809Gw/Q6PLSSjvKRC5GppZtT56', '2024-11-25 14:25:54.000000', 492816),
         (7, '2024-11-25 14:25:55.000000', '$2y$10$hYKlgYYgGSWtqld2jmsnGO7DXX3nn9qtqtiNP8c8GGX4X.AMk0Nxi', '2024-11-25 14:25:56.000000', 627481),
         (8, '2024-11-25 14:25:58.000000', '$2y$10$JFqltMC4hZdb9aBQGqTBruYcIYEqD9gE29GLjsNFaJ7lsBPYXZ8d6', '2024-11-25 14:25:59.000000', 385209);
@@ -75,10 +75,12 @@ CREATE TABLE IF NOT EXISTS mission_type (
 
 -- Insertion des données dans la table mission_type
 INSERT INTO mission_type (id, average_daily_rate, bonus_amount, bonus_percentage, end_date, is_bonus, is_charged, label, start_date)
-VALUES (1, 100, NULL, NULL, NULL, 0, 1, 'Maçonnerie', '2024-11-29'),
-       (2, 350, NULL, NULL, NULL, 0, 1, 'Peinture', '2024-11-29'),
-       (3, 400, NULL, 2.8, NULL, 1, 1, 'Logistique', '2024-11-29'),
-       (4, NULL, NULL, NULL, NULL, 0, 0, 'Bénévolat', '2024-11-29');
+VALUES (1, 100, NULL, NULL, NULL, 0, 1, 'Maçonnerie', '2023-11-29'),
+       (2, 350, NULL, NULL, NULL, 0, 1, 'Peinture', '2023-11-29'),
+       (3, 400, NULL, 2.8, NULL, 1, 1, 'Logistique', '2023-11-29'),
+       (4, NULL, NULL, NULL, NULL, 0, 0, 'Bénévolat', '2023-11-29'),
+       (5, 100, NULL, NULL, '2024-11-29', 0, 1, 'Maçonnerie', '2023-11-29');
+
 
 -- Création de la table missions
 CREATE TABLE IF NOT EXISTS missions (
@@ -181,8 +183,7 @@ CREATE TABLE IF NOT EXISTS expense (
 
 -- Insertion des données dans la table expense
 INSERT INTO expense (id, date, amount, tax, expense_report_id, type_id)
-VALUES (1, '2024-11-23', 121.35, 20, 1, 2),
-       (2, '2024-11-24', 249.90, 30, 2, 3),
-       (3, '2024-11-25', 145.70, 25, 3, 1),
-       (4, '2024-11-26', 59.00, 10, 4, 4),
-       (5, '2024-11-27', 89.50, 15, 5, 2);
+VALUES (1, '2024-11-24', 249.90, 30, 2, 3),
+       (2, '2024-11-25', 145.70, 25, 3, 1),
+       (3, '2024-11-26', 59.00, 10, 4, 4),
+       (4, '2024-11-27', 89.50, 15, 5, 2);
