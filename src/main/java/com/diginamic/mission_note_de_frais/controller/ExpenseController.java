@@ -1,17 +1,20 @@
 package com.diginamic.mission_note_de_frais.controller;
 
 import com.diginamic.mission_note_de_frais.exception.FunctionalException;
+import com.diginamic.mission_note_de_frais.model.dto.ApiResponseDTO;
 import com.diginamic.mission_note_de_frais.model.dto.ExpenseDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Expense;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseReport;
 import com.diginamic.mission_note_de_frais.model.mapper.ExpenseMapper;
 import com.diginamic.mission_note_de_frais.service.ExpenseReportServiceImpl;
 import com.diginamic.mission_note_de_frais.service.ExpenseServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -42,8 +45,16 @@ public class ExpenseController {
      * @return La ligne de frais correspondante à l'id donné
      */
     @GetMapping("/{id}")
-    public ExpenseDTO getExpenseById(@PathVariable Long id) {
-        return expenseMapper.toDTO(expenseService.extractExpenseById(id));
+    public ResponseEntity<ApiResponseDTO> getExpenseById(@PathVariable Long id) throws EntityNotFoundException {
+        ExpenseDTO expenseDTO = expenseMapper.toDTO(expenseService.extractExpenseById(id));
+        ApiResponseDTO response = new ApiResponseDTO(
+                "Success",
+                "Dépense récupérée avec succès",
+                HttpStatus.OK.value(),
+                LocalDateTime.now(),
+                expenseDTO
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -53,12 +64,20 @@ public class ExpenseController {
      * @return La liste de toutes les lignes de frais correspondante à la note de frais donnée
      */
     @GetMapping("/expense-report/{id}")
-    public List<ExpenseDTO> getExpenseByExpenseReportId(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseDTO> getExpenseByExpenseReportId(@PathVariable Long id) throws EntityNotFoundException {
         ExpenseReport expenseReport = expenseReportService.getExpenseReportById(id);
-        return expenseService.extractExpensesByExpenseReport(expenseReport)
+        List<ExpenseDTO> expenseDTOs = expenseService.extractExpensesByExpenseReport(expenseReport)
                 .stream()
-                .map(expense -> expenseMapper.toDTO(expense))
+                .map(expenseMapper::toDTO)
                 .toList();
+        ApiResponseDTO response = new ApiResponseDTO(
+                "Success",
+                "Dépenses récupérées avec succès",
+                HttpStatus.OK.value(),
+                LocalDateTime.now(),
+                expenseDTOs
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -69,26 +88,34 @@ public class ExpenseController {
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @PostMapping
-    public ResponseEntity<String> insertExpense(@RequestBody ExpenseDTO newExpense, @RequestParam Long expenseReportId) {
-        try {
-            // Récupérer le ExpenseReport
-            ExpenseReport expenseReport = expenseReportService.getExpenseReportById(expenseReportId);
+    public ResponseEntity<ApiResponseDTO> insertExpense(@RequestBody ExpenseDTO newExpense, @RequestParam Long expenseReportId) throws FunctionalException, EntityNotFoundException {
+        // Récupérer le ExpenseReport
+        ExpenseReport expenseReport = expenseReportService.getExpenseReportById(expenseReportId);
 
-            // Mapper le DTO à l'entité et associer le ExpenseReport
-            Expense expense = expenseMapper.toEntity(newExpense);
-            expense.setExpenseReport(expenseReport);
+        // Mapper le DTO à l'entité et associer le ExpenseReport
+        Expense expense = expenseMapper.toEntity(newExpense);
+        expense.setExpenseReport(expenseReport);
 
-            boolean result = expenseService.insertExpense(expense);
+        boolean result = expenseService.insertExpense(expense);
 
-            if (result) {
-                return new ResponseEntity<>("Dépense insérée avec succès", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Echec de l'insertion : La dépense n'a pas pu être insérée pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (FunctionalException e) {
-            return new ResponseEntity<>("Erreur de validation (400) : " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        if (result) {
+            ApiResponseDTO response = new ApiResponseDTO(
+                    "Success",
+                    "Dépense insérée avec succès",
+                    HttpStatus.OK.value(),
+                    LocalDateTime.now(),
+                    newExpense
+            );
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            ApiResponseDTO response = new ApiResponseDTO(
+                    "Internal Server Error",
+                    "Échec de l'insertion : La dépense n'a pas pu être insérée pour une raison inconnue",
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    LocalDateTime.now(),
+                    null
+            );
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -100,23 +127,31 @@ public class ExpenseController {
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateExpense(@PathVariable Long id, @RequestBody ExpenseDTO updatedExpense) {
-        try {
-            // Mapper le DTO à l'entité
-            Expense expense = expenseMapper.toEntity(updatedExpense);
-            expense.setId(id);
+    public ResponseEntity<ApiResponseDTO> updateExpense(@PathVariable Long id, @RequestBody ExpenseDTO updatedExpense) throws FunctionalException, EntityNotFoundException {
+        // Mapper le DTO à l'entité
+        Expense expense = expenseMapper.toEntity(updatedExpense);
+        expense.setId(id);
 
-            boolean result = expenseService.updateExpense(expense);
+        boolean result = expenseService.updateExpense(expense);
 
-            if (result) {
-                return new ResponseEntity<>("Dépense mise à jour avec succès", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Echec de la mise à jour : La dépense n'a pas pu être mise à jour pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (FunctionalException e) {
-            return new ResponseEntity<>("Erreur de validation (400) : " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        if (result) {
+            ApiResponseDTO response = new ApiResponseDTO(
+                    "Success",
+                    "Dépense mise à jour avec succès",
+                    HttpStatus.OK.value(),
+                    LocalDateTime.now(),
+                    updatedExpense
+            );
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            ApiResponseDTO response = new ApiResponseDTO(
+                    "Internal Server Error",
+                    "Échec de la mise à jour : La dépense n'a pas pu être mise à jour pour une raison inconnue",
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    LocalDateTime.now(),
+                    null
+            );
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -127,16 +162,26 @@ public class ExpenseController {
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteExpense(@PathVariable Long id) {
-        try {
-            boolean result = expenseService.deleteExpense(id);
-            if (result) {
-                return new ResponseEntity<>("Dépense supprimée avec succès", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Échec de la suppression : La dépense n'a pas pu être supprimée pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ApiResponseDTO> deleteExpense(@PathVariable Long id) throws FunctionalException, EntityNotFoundException {
+        boolean result = expenseService.deleteExpense(id);
+        if (result) {
+            ApiResponseDTO response = new ApiResponseDTO(
+                    "Success",
+                    "Dépense supprimée avec succès",
+                    HttpStatus.OK.value(),
+                    LocalDateTime.now(),
+                    null
+            );
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            ApiResponseDTO response = new ApiResponseDTO(
+                    "Internal Server Error",
+                    "Échec de la suppression : La dépense n'a pas pu être supprimée pour une raison inconnue",
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    LocalDateTime.now(),
+                    null
+            );
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
