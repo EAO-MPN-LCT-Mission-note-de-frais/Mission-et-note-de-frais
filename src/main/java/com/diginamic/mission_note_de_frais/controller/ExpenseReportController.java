@@ -3,20 +3,19 @@ package com.diginamic.mission_note_de_frais.controller;
 import com.diginamic.mission_note_de_frais.exception.FunctionalException;
 import com.diginamic.mission_note_de_frais.model.dto.ApiResponseDTO;
 import com.diginamic.mission_note_de_frais.model.dto.ExpenseDTO;
-import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
-import com.diginamic.mission_note_de_frais.model.dto.SimpleExpenseReportDTO;
+import com.diginamic.mission_note_de_frais.model.dto.ExpenseReportDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionResponse;
 import com.diginamic.mission_note_de_frais.model.entity.Expense;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseReport;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
 import com.diginamic.mission_note_de_frais.model.mapper.ExpenseMapper;
-import com.diginamic.mission_note_de_frais.model.mapper.MissionMapper;
-import com.diginamic.mission_note_de_frais.model.mapper.SimpleExpenseReportMapper;
+import com.diginamic.mission_note_de_frais.model.mapper.ExpenseReportMapper;
 import com.diginamic.mission_note_de_frais.service.ExpenseReportServiceImpl;
 import com.diginamic.mission_note_de_frais.service.ExpenseServiceImpl;
 import com.diginamic.mission_note_de_frais.service.MissionServiceImpl;
 import com.diginamic.mission_note_de_frais.util.PdfGenerator;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,28 +34,16 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/expense-reports")
+@RequiredArgsConstructor
 public class ExpenseReportController {
+    private final ExpenseReportServiceImpl expenseReportService;
+    private final ExpenseServiceImpl expenseService;
+    private final MissionServiceImpl missionService;
 
-    @Autowired
-    private ExpenseReportServiceImpl expenseReportService;
+    private final ExpenseReportMapper expenseReportMapper;
+    private final ExpenseMapper expenseMapper;
 
-    @Autowired
-    private SimpleExpenseReportMapper expenseReportMapper;
-
-    @Autowired
-    private MissionServiceImpl missionService;
-
-    @Autowired
-    private MissionMapper missionMapper;
-
-    @Autowired
-    private ExpenseServiceImpl expenseService;
-
-    @Autowired
-    private ExpenseMapper expenseMapper;
-
-    @Autowired
-    private PdfGenerator pdfGenerator;
+    private final PdfGenerator pdfGenerator;
 
     /**
      * Récupère une note de frais par son id.
@@ -67,7 +54,7 @@ public class ExpenseReportController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponseDTO> getExpenseReportById(@PathVariable Long id) throws EntityNotFoundException {
         try {
-            SimpleExpenseReportDTO expenseReportDTO = expenseReportMapper.apply(expenseReportService.getExpenseReportById(id));
+            ExpenseReportDTO expenseReportDTO = expenseReportMapper.apply(expenseReportService.getExpenseReportById(id));
             ApiResponseDTO response = new ApiResponseDTO(
                     "Success",
                     "Note de frais récupérée avec succès",
@@ -100,8 +87,8 @@ public class ExpenseReportController {
     public ResponseEntity<byte[]> exportExpenseReportToPdf(@PathVariable Long id) throws Exception {
         // Récupération des DTO
         ExpenseReport expenseReport = expenseReportService.getExpenseReportById(id);
-        SimpleExpenseReportDTO expenseReportDTO = expenseReportMapper.apply(expenseReport);
-        MissionDTO missionDTO = missionService.getMissionById(expenseReport.getMission().getId());
+        ExpenseReportDTO expenseReportDTO = expenseReportMapper.apply(expenseReport);
+        MissionResponse missionDTO = missionService.getMissionById(expenseReport.getMission().getId());
         List<Expense> expenses = expenseService.extractExpensesByExpenseReport(expenseReport);
         List<ExpenseDTO> expenseDTOs = expenses.stream()
                 .map(expenseMapper::toDTO)
@@ -122,13 +109,13 @@ public class ExpenseReportController {
      * Insère une nouvelle note de frais.
      *
      * @param newExpenseReport Le DTO de ExpenseReport à insérer.
-     * @param missionId L'identifiant de la mission auquel cette note de frais est associée.
+     * @param missionId        L'identifiant de la mission auquel cette note de frais est associée.
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @PostMapping
-    public ResponseEntity<ApiResponseDTO> insertExpenseReport(@RequestBody SimpleExpenseReportDTO newExpenseReport, @RequestParam int missionId) throws FunctionalException, EntityNotFoundException {
+    public ResponseEntity<ApiResponseDTO> insertExpenseReport(@RequestBody ExpenseReportDTO newExpenseReport, @RequestParam int missionId) throws FunctionalException, EntityNotFoundException {
         // Récupérer la mission
-        Mission mission = missionMapper.toEntity(missionService.getMissionById(missionId));
+        Mission mission = missionService.getRawMissionById(missionId);
         ExpenseReport expenseReport = expenseReportMapper.toEntity(newExpenseReport);
         expenseReport.setMission(mission);
         boolean result = expenseReportService.addExpenseReport(expenseReport);
@@ -157,12 +144,12 @@ public class ExpenseReportController {
     /**
      * Met à jour une note de frais existante.
      *
-     * @param id L'identifiant de la note de frais à mettre à jour.
+     * @param id                   L'identifiant de la note de frais à mettre à jour.
      * @param updatedExpenseReport Le DTO de ExpenseReport avec les nouvelles données.
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO> updateExpenseReport(@PathVariable Long id, @RequestBody SimpleExpenseReportDTO updatedExpenseReport) throws EntityNotFoundException {
+    public ResponseEntity<ApiResponseDTO> updateExpenseReport(@PathVariable Long id, @RequestBody ExpenseReportDTO updatedExpenseReport) throws EntityNotFoundException {
         ExpenseReport expenseReport = expenseReportMapper.toEntity(updatedExpenseReport);
         expenseReport.setId(id);
 

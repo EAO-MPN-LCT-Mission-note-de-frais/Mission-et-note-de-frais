@@ -1,7 +1,7 @@
 package com.diginamic.mission_note_de_frais.model.entity;
 
+import com.diginamic.mission_note_de_frais.model.dto.MissionResponse;
 import com.diginamic.mission_note_de_frais.model.mapper.Mappable;
-import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +28,7 @@ import java.util.function.Function;
 @Getter
 @Setter
 @ToString
-public class Mission implements Mappable<Mission, MissionDTO> {
+public class Mission implements Mappable<Mission, MissionResponse> {
   /**
    * The unique identifier for the mission.
    */
@@ -36,6 +36,12 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Integer id;
+//  /**
+//   * The date the mission started.
+//   */
+//  @Column(name = "label")
+//  private String label;
+
 
   /**
    * The date the mission started.
@@ -76,7 +82,7 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   private MissionType missionType;
 
   /**
-   * The transports  of the mission
+   * The transports of the mission
    */
   @ManyToMany
   @JoinTable(
@@ -93,7 +99,7 @@ public class Mission implements Mappable<Mission, MissionDTO> {
   private ExpenseReport expenseReport;
 
   @Override
-  public MissionDTO map(Function<? super Mission, ? extends MissionDTO> mapper) {
+  public MissionResponse map(Function<? super Mission, ? extends MissionResponse> mapper) {
     return mapper.apply(this);
   }
 }

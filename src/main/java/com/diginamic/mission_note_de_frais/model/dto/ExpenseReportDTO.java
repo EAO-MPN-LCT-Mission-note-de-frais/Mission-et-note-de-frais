@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class SimpleExpenseReportDTO {
+public class ExpenseReportDTO {
   private Long id;
   private double amount;
   private StatusDTO status;

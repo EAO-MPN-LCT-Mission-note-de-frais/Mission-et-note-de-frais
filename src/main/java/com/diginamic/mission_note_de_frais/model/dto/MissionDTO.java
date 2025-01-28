@@ -52,7 +52,7 @@ public class MissionDTO {
   /**
    * A summarized version of the expense report associated with this mission.
    */
-  private SimpleExpenseReportDTO expenseReport;
+  private ExpenseReportDTO expenseReport;
   
   /**
    * The identifier for the MissionType
