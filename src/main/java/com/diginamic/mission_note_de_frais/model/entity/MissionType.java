@@ -57,7 +57,7 @@ public class MissionType {
 	 * Ce champ est obligatoire.
 	 */
 	@Column(nullable = false)
-	private Boolean isCharged;
+	private Boolean isCharged; // Facturé
 
 	/**
 	 * Indique si la nature de mission inclut une prime.
@@ -72,21 +72,21 @@ public class MissionType {
 	 * <p>
 	 * Ce champ est obligatoire uniquement si {@code isCharged} est vrai.
 	 */
-	private Double averageDailyRate;
+	private Double averageDailyRate; // TJM
 
 	/**
 	 * Pourcentage de prime applicable à la nature de mission.
 	 * <p>
 	 * Ce champ est obligatoire uniquement si {@code isBonus} est vrai.
 	 */
-	private Double bonusPercentage;
+	private Double bonusPercentage; // % Prime
 
 	/**
 	 * Montant de la prime associé à la nature de mission.
 	 * <p>
 	 * Ce champ est optionnel et peut être utilisé pour des calculs futurs.
 	 */
-	private Double bonusAmount;
+	private Double bonusAmount; // Prime
 	
 	/**
 	 * Liste des missions liés au Type de mission.

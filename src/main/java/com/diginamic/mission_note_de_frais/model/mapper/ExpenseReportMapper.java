@@ -1,6 +1,6 @@
 package com.diginamic.mission_note_de_frais.model.mapper;
 
-import com.diginamic.mission_note_de_frais.model.dto.SimpleExpenseReportDTO;
+import com.diginamic.mission_note_de_frais.model.dto.ExpenseReportDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Expense;
 import com.diginamic.mission_note_de_frais.model.entity.ExpenseReport;
 import com.diginamic.mission_note_de_frais.model.entity.Status;
@@ -13,19 +13,19 @@ import java.util.function.Function;
 
 @Controller
 @RequiredArgsConstructor
-public class SimpleExpenseReportMapper implements Function<ExpenseReport, SimpleExpenseReportDTO> {
+public class ExpenseReportMapper implements Function<ExpenseReport, ExpenseReportDTO> {
 
   private final StatusMapper statusMapper;
 
   @Override
-  public SimpleExpenseReportDTO apply(ExpenseReport report) {
+  public ExpenseReportDTO apply(ExpenseReport report) {
     Assert.notNull(report, "The expense report cannot be null");
 
     var totalExpenses = report.getExpenses()
         .stream()
         .mapToDouble(Expense::getAmount).sum();
 
-    var simpleReport = new SimpleExpenseReportDTO();
+    var simpleReport = new ExpenseReportDTO();
     simpleReport.setAmount(totalExpenses);
     simpleReport.setId(report.getId());
 
@@ -43,7 +43,7 @@ public class SimpleExpenseReportMapper implements Function<ExpenseReport, Simple
    * @return Une nouvelle instance de l'entité `ExpenseReport` correspondant au DTO.
    * @throws IllegalArgumentException si le DTO est null ou si des dépendances obligatoires manquent.
    */
-  public ExpenseReport toEntity(SimpleExpenseReportDTO expenseReportDTO) {
+  public ExpenseReport toEntity(ExpenseReportDTO expenseReportDTO) {
     if (expenseReportDTO == null) {
       throw new IllegalArgumentException("Le DTO ne peut pas être null");
     }

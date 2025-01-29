@@ -2,7 +2,8 @@ package com.diginamic.mission_note_de_frais.util;
 
 import com.diginamic.mission_note_de_frais.model.dto.ExpenseDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
-import com.diginamic.mission_note_de_frais.model.dto.SimpleExpenseReportDTO;
+import com.diginamic.mission_note_de_frais.model.dto.ExpenseReportDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionResponse;
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 import com.diginamic.mission_note_de_frais.model.entity.Mission;
 import com.diginamic.mission_note_de_frais.service.MissionService;
@@ -48,7 +49,7 @@ public class PdfGenerator {
      * @return Un tableau de bytes représentant le document PDF généré.
      * @throws Exception S'il y a une erreur lors de la génération du PDF.
      */
-    public byte[] generatePdf(SimpleExpenseReportDTO expenseReportDTO, MissionDTO missionDTO, List<ExpenseDTO> expenseDTOs) throws Exception  {
+    public byte[] generatePdf(ExpenseReportDTO expenseReportDTO, MissionResponse missionDTO, List<ExpenseDTO> expenseDTOs) throws Exception  {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter writer = new PdfWriter(outputStream);

@@ -1,6 +1,7 @@
 package com.diginamic.mission_note_de_frais.controller;
 
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
+import com.diginamic.mission_note_de_frais.model.dto.MissionResponse;
 import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
 import com.diginamic.mission_note_de_frais.model.dto.TransportDTO;
 import com.diginamic.mission_note_de_frais.service.MissionService;
@@ -24,26 +25,26 @@ public class MissionController {
   }
 
   @PostMapping("/missions")
-  public MissionDTO createMission(
+  public MissionResponse createMission(
       @RequestBody MissionDTO missionDto
   ) {
     return missionService.createMission(missionDto);
   }
 
   @GetMapping("/missions")
-  public List<MissionDTO> getMissions() {
+  public List<MissionResponse> getMissions() {
     // Get an existing mission
     return missionService.getMissions();
   }
 
   @GetMapping("/missions/{id}")
-  public MissionDTO getMissionById(@PathVariable() Integer id) {
+  public MissionResponse getMissionById(@PathVariable() Integer id) {
     // Get an existing mission
     return missionService.getMissionById(id);
   }
 
   @PutMapping("/missions")
-  public MissionDTO updateMission(@RequestBody MissionDTO missionDto) {
+  public MissionResponse updateMission(@RequestBody MissionDTO missionDto) {
     // Update an existing mission
     return missionService.updateMission(missionDto);
   }
@@ -55,7 +56,7 @@ public class MissionController {
   }
   
   @PostMapping("/missions/{missionId}/transports/{transportId}")
-  public MissionDTO addTransportToMission(
+  public MissionResponse addTransportToMission(
           @PathVariable Integer missionId,
           @PathVariable Long transportId
   ) {
@@ -63,7 +64,7 @@ public class MissionController {
   }
   
   @DeleteMapping("/missions/{missionId}/transports/{transportId}")
-  public MissionDTO removeTransportFromMission(
+  public MissionResponse removeTransportFromMission(
           @PathVariable Integer missionId,
           @PathVariable Long transportId
   ) {
