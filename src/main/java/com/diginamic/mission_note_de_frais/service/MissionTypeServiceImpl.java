@@ -106,6 +106,16 @@ public class MissionTypeServiceImpl implements MissionTypeService {
 
         validateMissionTypeDTO(missionTypeDTO);
 
+        // 🛠️ Si `isCharged` est false, on met `averageDailyRate` à null
+        if (!missionTypeDTO.getIsCharged()) {
+            missionTypeDTO.setAverageDailyRate(null);
+        }
+
+        // 🛠️ Si `isBonus` est false, on met `bonusPercentage` à null
+        if (!missionTypeDTO.getIsBonus()) {
+            missionTypeDTO.setBonusPercentage(null);
+        }
+
         if (missionType.getEndDate() == null) {
             missionType.setEndDate(LocalDate.now());
             missionTypeRepository.save(missionType);
