@@ -74,21 +74,21 @@ public class ExpenseTypeController {
      * @return ResponseEntity avec le statut HTTP et un message.
      */
     @PostMapping
-    public ResponseEntity<String> addExpenseType(@RequestBody ExpenseTypeDTO newExpenseType) {
+    public ResponseEntity<ExpenseTypeDTO> addExpenseType(@RequestBody ExpenseTypeDTO newExpenseType) {
         try {
             ExpenseType expenseType = expenseTypeMapper.toEntity(newExpenseType);
-
             boolean result = expenseTypeService.insertExpenseType(expenseType);
 
             if (result) {
-                return new ResponseEntity<>("Nature de frais insérée avec succès", HttpStatus.OK);
+                ExpenseTypeDTO savedExpenseTypeDTO = expenseTypeMapper.toDto(expenseType);
+                return ResponseEntity.ok(savedExpenseTypeDTO);
             } else {
-                return new ResponseEntity<>("Echec de l'insertion : La nature de frais n'a pas pu être insérée pour une raison inconnue", HttpStatus.INTERNAL_SERVER_ERROR);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         } catch (FunctionalException e) {
-            return new ResponseEntity<>("Erreur de validation (400) : " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            return new ResponseEntity<>("Erreur interne du serveur : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
