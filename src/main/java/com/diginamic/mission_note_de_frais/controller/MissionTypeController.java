@@ -62,6 +62,19 @@ public class MissionTypeController {
 	}
 
 	/**
+	 * Echue une nature de mission existant.
+	 *
+	 * @param id             l'identifiant de la natures de mission à mettre à jour
+	 * @param missionTypeDTO les nouvelles données de la nature de mission
+	 * @return un {@link MissionTypeDTO} représentant la nature de mission mise à
+	 *         jour
+	 */
+	@PutMapping("/fade/{id}")
+	public MissionTypeDTO fadeMissionType(@PathVariable Long id, @RequestBody MissionTypeDTO missionTypeDTO) {
+		return missionTypeService.fadeMissionType(id, missionTypeDTO);
+	}
+
+	/**
 	 * Supprime une nature de mission existante.
 	 *
 	 * @param id l'identifiant de la nature de mission à supprimer

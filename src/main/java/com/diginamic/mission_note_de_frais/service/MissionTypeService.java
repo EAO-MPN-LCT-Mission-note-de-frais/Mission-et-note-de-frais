@@ -54,6 +54,22 @@ public interface MissionTypeService {
 	MissionTypeDTO updateMissionType(Long id, MissionTypeDTO missionTypeDTO);
 
 	/**
+	 * Echue une nature de mission existante.
+	 * <p>
+	 * Cette méthode permet de modifier une nature de mission en fonction de son
+	 * identifiant unique et des nouvelles informations fournies via un DTO.
+	 * 
+	 * @param id             l'identifiant unique de la nature de mission à mettre à
+	 *                       jour.
+	 * @param missionTypeDTO un objet contenant les informations mises à jour.
+	 * @return un {@link MissionTypeDTO} représentant la nature de mission mise à
+	 *         jour.
+	 * @throws ResourceNotFoundException si aucune nature de mission avec
+	 *                                   l'identifiant donné n'est trouvée.
+	 */
+	MissionTypeDTO fadeMissionType(Long id, MissionTypeDTO missionTypeDTO);
+
+	/**
 	 * Supprime une nature de mission.
 	 * <p>
 	 * Cette méthode permet de supprimer une nature de mission en fonction de son

@@ -89,6 +89,8 @@ public class ExpenseController {
      */
     @PostMapping
     public ResponseEntity<ApiResponseDTO> insertExpense(@RequestBody ExpenseDTO newExpense, @RequestParam Long expenseReportId) throws FunctionalException, EntityNotFoundException {
+        // Définir l'expenseReportId dans newExpense
+        newExpense.setExpenseReportId(expenseReportId);
         // Récupérer le ExpenseReport
         ExpenseReport expenseReport = expenseReportService.getExpenseReportById(expenseReportId);
 
