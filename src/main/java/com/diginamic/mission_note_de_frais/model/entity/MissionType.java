@@ -48,7 +48,7 @@ public class MissionType {
 	 * <p>
 	 * Ce champ est obligatoire et doit être unique.
 	 */
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String label;
 
 	/**
