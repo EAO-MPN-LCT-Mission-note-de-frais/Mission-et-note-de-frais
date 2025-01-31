@@ -1,5 +1,7 @@
 package com.diginamic.mission_note_de_frais.service;
 
+import com.diginamic.mission_note_de_frais.exception.DomainException;
+import com.diginamic.mission_note_de_frais.model.dto.CreateMissionDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionResponse;
 import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
@@ -16,7 +18,7 @@ public interface MissionService {
     /**
      * Create a new mission.
      */
-    MissionResponse createMission(MissionDTO missionDto);
+    MissionResponse createMission(CreateMissionDTO missionDto) throws DomainException;
 
     /**
      * Get an existing mission.

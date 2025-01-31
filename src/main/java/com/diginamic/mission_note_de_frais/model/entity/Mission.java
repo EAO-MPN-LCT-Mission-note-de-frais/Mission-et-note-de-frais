@@ -36,12 +36,6 @@ public class Mission implements Mappable<Mission, MissionResponse> {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Integer id;
-//  /**
-//   * The date the mission started.
-//   */
-//  @Column(name = "label")
-//  private String label;
-
 
   /**
    * The date the mission started.

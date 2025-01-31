@@ -1,21 +1,17 @@
 package com.diginamic.mission_note_de_frais.model.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
-@Setter
 @Getter
-@Accessors(chain = true)
-public class MissionResponse {
-    /**
-     * The unique identifier for the mission.
-     */
-    private Integer id;
-
+@Setter
+@ToString
+public class CreateMissionDTO {
     /**
      * The date the mission started.
      */
@@ -37,22 +33,12 @@ public class MissionResponse {
     private String endTown;
 
     /**
-     * The current status of the mission.
-     */
-    private StatusDTO status;
-
-    /**
      * The transports of the mission
      */
-    private List<TransportDTO> transports;
-
-    /**
-     * A summarized version of the expense report associated with this mission.
-     */
-    private ExpenseReportDTO expenseReport;
+    private Set<Long> transportIds;
 
     /**
      * The identifier for the MissionType
      */
-    private MissionTypeDTO missionType;
+    private Long missionTypeId;
 }

@@ -1,5 +1,7 @@
 package com.diginamic.mission_note_de_frais.exception;
 
+import java.io.Serial;
+
 /**
  * Exception personnalisée utilisée pour représenter des erreurs fonctionnelles dans l'application.
  * <p>
@@ -14,7 +16,9 @@ public class FunctionalException extends Exception {
     /**
      * Identifiant unique pour la sérialisation.
      */
-    private static final long serialVersionUID = 1L;
+    @Serial
+    // generate timestamp long
+    private static final long serialVersionUID = -1631180730731L;
 
     /**
      * Constructeur pour créer une instance de `FunctionalException` avec un message spécifique.
