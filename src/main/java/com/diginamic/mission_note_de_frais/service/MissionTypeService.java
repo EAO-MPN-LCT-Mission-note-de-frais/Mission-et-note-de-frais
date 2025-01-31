@@ -54,7 +54,7 @@ public interface MissionTypeService {
 	MissionTypeDTO updateMissionType(Long id, MissionTypeDTO missionTypeDTO);
 
 	/**
-	 * Met à jour une nature de mission existante.
+	 * Echue une nature de mission existante.
 	 * <p>
 	 * Cette méthode permet de modifier une nature de mission en fonction de son
 	 * identifiant unique et des nouvelles informations fournies via un DTO.

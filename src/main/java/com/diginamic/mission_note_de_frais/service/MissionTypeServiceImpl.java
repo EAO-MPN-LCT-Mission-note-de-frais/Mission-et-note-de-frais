@@ -129,16 +129,15 @@ public class MissionTypeServiceImpl implements MissionTypeService {
     }
 
     /**
-     * Met à jour une nature de mission existante.
+     * Echue une nature de mission existante.
      * <p>
      * Si la nature de mission est active (non expirée), elle est marquée comme
-     * expirée (en ajoutant une date de fin) et une nouvelle version est créée
-     * avec les données mises à jour. Avant la mise à jour, des contrôles métier
-     * sont effectués.
+     * expirée (en ajoutant une date de fin). 
+     * Avant la mise à jour, des contrôles métier sont effectués.
      *
      * @param id             l'identifiant de la nature de mission à mettre à jour
      * @param missionTypeDTO les nouvelles données de la nature de mission
-     * @return un {@link MissionTypeDTO} représentant la nouvelle nature de mission
+     * @return un {@link MissionTypeDTO} représentant la nature de mission expiré
      * @throws EntityNotFoundException  si aucune nature de mission avec l'identifiant donné n'est trouvée
      * @throws IllegalArgumentException si les règles métier ne sont pas respectées ou si la nature
      *                                  de mission est déjà expirée

@@ -62,7 +62,7 @@ public class MissionTypeController {
 	}
 
 	/**
-	 * Met à jour une nature de mission existant.
+	 * Echue une nature de mission existant.
 	 *
 	 * @param id             l'identifiant de la natures de mission à mettre à jour
 	 * @param missionTypeDTO les nouvelles données de la nature de mission
