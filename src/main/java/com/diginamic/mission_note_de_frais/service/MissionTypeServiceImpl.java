@@ -129,6 +129,39 @@ public class MissionTypeServiceImpl implements MissionTypeService {
     }
 
     /**
+     * Met à jour une nature de mission existante.
+     * <p>
+     * Si la nature de mission est active (non expirée), elle est marquée comme
+     * expirée (en ajoutant une date de fin) et une nouvelle version est créée
+     * avec les données mises à jour. Avant la mise à jour, des contrôles métier
+     * sont effectués.
+     *
+     * @param id             l'identifiant de la nature de mission à mettre à jour
+     * @param missionTypeDTO les nouvelles données de la nature de mission
+     * @return un {@link MissionTypeDTO} représentant la nouvelle nature de mission
+     * @throws EntityNotFoundException  si aucune nature de mission avec l'identifiant donné n'est trouvée
+     * @throws IllegalArgumentException si les règles métier ne sont pas respectées ou si la nature
+     *                                  de mission est déjà expirée
+     */
+    @Override
+    public MissionTypeDTO fadeMissionType(Long id, MissionTypeDTO missionTypeDTO) {
+        MissionType missionType = missionTypeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nature de mission non trouvée"));
+
+        validateMissionTypeDTO(missionTypeDTO);
+
+        if (missionType.getEndDate() == null) {
+            missionType.setEndDate(LocalDate.now());
+            missionTypeRepository.save(missionType);
+
+            return missionTypeMapper.toDTO(missionTypeRepository.save(missionType));
+                
+        } else {
+            throw new IllegalArgumentException("Impossible de modifier une nature expirée.");
+        }
+    }
+
+    /**
      * Supprime une nature de mission.
      * <p>
      * Si la nature de mission est active (non expirée), elle est marquée comme
@@ -143,13 +176,22 @@ public class MissionTypeServiceImpl implements MissionTypeService {
         MissionType missionType = missionTypeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nature de mission non trouvée"));
 
+        // Si la nature de mission n'est pas encore échue, on met à jour la date de fin
         if (missionType.getEndDate() == null) {
             missionType.setEndDate(LocalDate.now());
             missionTypeRepository.save(missionType);
-        } else {
-            missionTypeRepository.delete(missionType);
+            return;
         }
+
+        // Vérifier si des missions sont encore liées
+        if (!missionType.getMissions().isEmpty()) {
+            throw new IllegalStateException("Impossible de supprimer cette nature de mission car des missions lui sont encore rattachées.");
+        }
+
+        // Suppression de la nature de mission si elle n'a plus de missions associées
+        missionTypeRepository.delete(missionType);
     }
+
 
     /**
      * Valide les règles métier d'un {@link MissionTypeDTO}.
