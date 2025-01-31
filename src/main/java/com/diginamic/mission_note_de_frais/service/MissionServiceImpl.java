@@ -1,5 +1,9 @@
 package com.diginamic.mission_note_de_frais.service;
 
+import com.diginamic.mission_note_de_frais.Messages;
+import com.diginamic.mission_note_de_frais.exception.BadRequestException;
+import com.diginamic.mission_note_de_frais.exception.DomainException;
+import com.diginamic.mission_note_de_frais.model.dto.CreateMissionDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionResponse;
 import com.diginamic.mission_note_de_frais.model.mapper.MissionResponseMapper;
 import com.diginamic.mission_note_de_frais.model.repository.MissionRepository;
@@ -38,12 +42,14 @@ public class MissionServiceImpl implements MissionService {
     private final TransportRepository transportRepository;
     private final StatusRepository statusRepository;
     private final MissionTypeRepository missionTypeRepository;
-    private final MissionResponseMapper MissionMapper;
+
+    private final MissionResponseMapper missionMapper;
     private final MissionTypeMapper missionTypeMapper;
 
-    @Override
-    public MissionResponse createMission(MissionDTO missionDto) {
+    private final Messages messages;
 
+    @Override
+    public MissionResponse createMission(CreateMissionDTO missionDto) throws DomainException {
         validateMissionDates(missionDto.getStartDate(), missionDto.getEndDate());
 
         // Fetch the initial status for the mission
@@ -76,7 +82,7 @@ public class MissionServiceImpl implements MissionService {
         }
 
         // Save and return the entity as a MapperDto
-        return missionRepository.save(entity).map(MissionMapper);
+        return missionRepository.save(entity).map(missionMapper);
     }
 
     /**
@@ -85,14 +91,14 @@ public class MissionServiceImpl implements MissionService {
      * @param startDate the date the mission starts
      * @param endDate   the date the mission ends
      */
-    private void validateMissionDates(LocalDate startDate, LocalDate endDate) {
+    private void validateMissionDates(LocalDate startDate, LocalDate endDate) throws BadRequestException {
         if (startDate.isAfter(endDate)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date must be before end date");
+            throw new BadRequestException(messages.get("error.start.date.before.end.date"));
         }
 
         // A mission cannot start in the past or start today
         if (startDate.isBefore(LocalDate.now()) || startDate.isEqual(LocalDate.now())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date cannot be in the past or today");
+            throw new BadRequestException(messages.get("error.start.date.not.past.or.present"));
         }
     }
 
@@ -100,13 +106,13 @@ public class MissionServiceImpl implements MissionService {
     public List<MissionResponse> getMissions() {
         return missionRepository.findAll()
                 .stream()
-                .map(MissionMapper).toList();
+                .map(missionMapper).toList();
     }
 
     @Override
     public MissionResponse getMissionById(Integer missionId) {
         return missionRepository.findById(missionId)
-                .map(MissionMapper)
+                .map(missionMapper)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Mission not found")
                 );
@@ -145,7 +151,7 @@ public class MissionServiceImpl implements MissionService {
         mission.setEndTown(missionDto.getEndTown());
 
         // Save and return the entity as a MapperDto
-        return missionRepository.save(mission).map(MissionMapper);
+        return missionRepository.save(mission).map(missionMapper);
     }
 
     @Override
@@ -175,7 +181,7 @@ public class MissionServiceImpl implements MissionService {
         mission.getTransports().add(transport);
         missionRepository.save(mission);
 
-        return MissionMapper.apply(mission);
+        return missionMapper.apply(mission);
     }
 
     @Override
@@ -189,7 +195,7 @@ public class MissionServiceImpl implements MissionService {
         mission.getTransports().remove(transport);
         missionRepository.save(mission);
 
-        return MissionMapper.apply(mission);
+        return missionMapper.apply(mission);
     }
 
     @Override
@@ -216,7 +222,7 @@ public class MissionServiceImpl implements MissionService {
                 .orElseThrow(() -> new ResponseStatusException(INTERNAL_SERVER_ERROR, "'EN_ATTENTE_VALIDATION' status not found"));
 
         mission.setStatus(status);
-        return missionRepository.save(mission).map(MissionMapper);
+        return missionRepository.save(mission).map(missionMapper);
     }
 
     /**
@@ -269,5 +275,4 @@ public class MissionServiceImpl implements MissionService {
 
         return missionTypeMapper.toDTO(missionType);
     }
-
 }

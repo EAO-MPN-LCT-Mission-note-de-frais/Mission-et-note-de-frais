@@ -1,5 +1,7 @@
 package com.diginamic.mission_note_de_frais.controller;
 
+import com.diginamic.mission_note_de_frais.exception.DomainException;
+import com.diginamic.mission_note_de_frais.model.dto.CreateMissionDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionDTO;
 import com.diginamic.mission_note_de_frais.model.dto.MissionResponse;
 import com.diginamic.mission_note_de_frais.model.dto.MissionTypeDTO;
@@ -18,66 +20,64 @@ import java.util.List;
 @RestController
 public class MissionController {
 
-  private final MissionService missionService;
+    private final MissionService missionService;
 
-  public MissionController(MissionService missionService) {
-    this.missionService = missionService;
-  }
+    public MissionController(MissionService missionService) {
+        this.missionService = missionService;
+    }
 
-  @PostMapping("/missions")
-  public MissionResponse createMission(
-      @RequestBody MissionDTO missionDto
-  ) {
-    return missionService.createMission(missionDto);
-  }
+    @PostMapping("/missions")
+    public MissionResponse createMission(@RequestBody CreateMissionDTO missionDto) throws DomainException {
+        return missionService.createMission(missionDto);
+    }
 
-  @GetMapping("/missions")
-  public List<MissionResponse> getMissions() {
-    // Get an existing mission
-    return missionService.getMissions();
-  }
+    @GetMapping("/missions")
+    public List<MissionResponse> getMissions() {
+        // Get an existing mission
+        return missionService.getMissions();
+    }
 
-  @GetMapping("/missions/{id}")
-  public MissionResponse getMissionById(@PathVariable() Integer id) {
-    // Get an existing mission
-    return missionService.getMissionById(id);
-  }
+    @GetMapping("/missions/{id}")
+    public MissionResponse getMissionById(@PathVariable() Integer id) {
+        // Get an existing mission
+        return missionService.getMissionById(id);
+    }
 
-  @PutMapping("/missions")
-  public MissionResponse updateMission(@RequestBody MissionDTO missionDto) {
-    // Update an existing mission
-    return missionService.updateMission(missionDto);
-  }
+    @PutMapping("/missions")
+    public MissionResponse updateMission(@RequestBody MissionDTO missionDto) {
+        // Update an existing mission
+        return missionService.updateMission(missionDto);
+    }
 
-  @DeleteMapping("/missions/{id}")
-  public void deleteMission(@PathVariable() Integer id) {
-    // Delete an existing mission
-    missionService.deleteMission(id);
-  }
-  
-  @PostMapping("/missions/{missionId}/transports/{transportId}")
-  public MissionResponse addTransportToMission(
-          @PathVariable Integer missionId,
-          @PathVariable Long transportId
-  ) {
-      return missionService.addTransportToMission(missionId, transportId);
-  }
-  
-  @DeleteMapping("/missions/{missionId}/transports/{transportId}")
-  public MissionResponse removeTransportFromMission(
-          @PathVariable Integer missionId,
-          @PathVariable Long transportId
-  ) {
-      return missionService.removeTransportFromMission(missionId, transportId);
-  }
-  
-  @GetMapping("/missions/{missionId}/transports")
-  public List<TransportDTO> getTransportsForMission(@PathVariable Integer missionId) {
-      return missionService.getTransportsForMission(missionId).stream().toList();
-  }
+    @DeleteMapping("/missions/{id}")
+    public void deleteMission(@PathVariable() Integer id) {
+        // Delete an existing mission
+        missionService.deleteMission(id);
+    }
 
-  @GetMapping("/missions/{missionId}/mission-types")
-  public MissionTypeDTO getMissionTypeForMission(@PathVariable Integer missionId) {
-      return missionService.getMissionTypeForMission(missionId);
-  }
+    @PostMapping("/missions/{missionId}/transports/{transportId}")
+    public MissionResponse addTransportToMission(
+            @PathVariable Integer missionId,
+            @PathVariable Long transportId
+    ) {
+        return missionService.addTransportToMission(missionId, transportId);
+    }
+
+    @DeleteMapping("/missions/{missionId}/transports/{transportId}")
+    public MissionResponse removeTransportFromMission(
+            @PathVariable Integer missionId,
+            @PathVariable Long transportId
+    ) {
+        return missionService.removeTransportFromMission(missionId, transportId);
+    }
+
+    @GetMapping("/missions/{missionId}/transports")
+    public List<TransportDTO> getTransportsForMission(@PathVariable Integer missionId) {
+        return missionService.getTransportsForMission(missionId).stream().toList();
+    }
+
+    @GetMapping("/missions/{missionId}/mission-types")
+    public MissionTypeDTO getMissionTypeForMission(@PathVariable Integer missionId) {
+        return missionService.getMissionTypeForMission(missionId);
+    }
 }

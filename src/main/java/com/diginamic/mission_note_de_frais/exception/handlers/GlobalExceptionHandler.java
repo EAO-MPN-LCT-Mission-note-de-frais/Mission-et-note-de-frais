@@ -1,5 +1,6 @@
-package com.diginamic.mission_note_de_frais.exception;
+package com.diginamic.mission_note_de_frais.exception.handlers;
 
+import com.diginamic.mission_note_de_frais.exception.FunctionalException;
 import com.diginamic.mission_note_de_frais.model.dto.ApiResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -55,21 +56,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * Gère toutes les autres exceptions non gérées.
-     *
-     * @param ex L'exception générique à traiter.
-     * @return Une réponse contenant un message d'erreur générique.
-     */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponseDTO> handleGeneralException(Exception ex) {
-        ApiResponseDTO errorResponse = new ApiResponseDTO(
-                "Internal Server Error",
-                "Une erreur interne du serveur est survenue.",
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                LocalDateTime.now(),
-                null
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    /**
+//     * Gère toutes les autres exceptions non gérées.
+//     *
+//     * @param ex L'exception générique à traiter.
+//     * @return Une réponse contenant un message d'erreur générique.
+//     */
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ApiResponseDTO> handleGeneralException(Exception ex) {
+//        ApiResponseDTO errorResponse = new ApiResponseDTO(
+//                "Internal Server Error",
+//                "Une erreur interne du serveur est survenue.",
+//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                LocalDateTime.now(),
+//                null
+//        );
+//        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }
